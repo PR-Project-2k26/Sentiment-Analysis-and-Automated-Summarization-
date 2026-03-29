@@ -1,4 +1,0 @@
-openai-whisper
-imageio-ffmpeg
-transformers
-torch
