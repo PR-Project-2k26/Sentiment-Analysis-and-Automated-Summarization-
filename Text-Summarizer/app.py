@@ -3,7 +3,7 @@ from utils import summarize_text
 
 st.set_page_config(page_title="Text Summarizer", layout="centered")
 
-st.title("🧠 AI Text Summarizer")
+st.title("🧠 Text Summarizer")
 
 # Input box
 user_input = st.text_area("Enter your text here:", height=200)
