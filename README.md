@@ -1,51 +1,78 @@
-# Video Summarizer
+# AI Video Summarizer
 
-An AI-powered Video Summarizer that automatically generates concise summaries from video content. The application extracts audio from videos, converts speech to text, and uses advanced Natural Language Processing (NLP) techniques to produce meaningful summaries, helping users quickly understand lengthy videos.
+🔗 **Live Demo:** https://video-summarizer-qjnjtkgtzm6ydfe28ccp6t.streamlit.app/
+
+## Overview
+
+AI Video Summarizer is an AI-powered web application that automatically generates concise summaries from video content. The application extracts audio from uploaded videos, converts speech into text using OpenAI Whisper, and generates structured summaries using Groq LLMs.
+
+This helps users quickly understand long videos without watching the entire content.
+
+---
 
 ## Features
 
 * Upload video files for processing
-* Automatic audio extraction from videos
-* Speech-to-text transcription
-* AI-generated video summaries
-* Clean and user-friendly interface
+* Automatic audio extraction using FFmpeg & MoviePy
+* Speech-to-text transcription using OpenAI Whisper
+* AI-generated summaries using Groq LLM
+* Fast and efficient processing pipeline
+* Clean and user-friendly Streamlit interface
 * Supports long-form video content
-* Fast and efficient processing
+* Downloadable summary output
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* Streamlit
+
+### Backend
+
+* Python
 
 ### AI & Machine Learning
 
-* Transformers
-* Hugging Face Models
-* Whisper (Speech Recognition)
-* NLP Libraries
+* OpenAI Whisper
+* Groq LLM (Llama 3.3 70B Versatile)
+* Natural Language Processing (NLP)
 
-### Other Tools
+### Video Processing
 
-* FFmpeg
 * MoviePy
+* FFmpeg
+
+### Development Tools
+
 * Git & GitHub
+
+---
 
 ## Project Structure
 
 ```text
 Video-Summarizer/
 │
-├── input/               # Uploaded videos
-├── output/              # Generated summaries
-├── static/              # CSS, JS, Images
-├── templates/           # HTML templates
-├── main.py              # Main application file
-├── requirements.txt     # Project dependencies
-├── README.md            # Project documentation
+├── input/                  # Uploaded videos
+├── output/                 # Extracted audio & summaries
+├── app.py                  # Streamlit UI
+├── main.py                 # Video processing pipeline
+├── requirements.txt        # Python dependencies
+├── packages.txt            # System dependencies (FFmpeg)
+├── README.md               # Project documentation
 └── .gitignore
 ```
+
+---
 
 ## Installation
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Video-Summarizer.git
+git clone https://github.com/bstar042005/Video-Summarizer.git
 cd Video-Summarizer
 ```
 
@@ -63,7 +90,7 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-#### Linux/Mac
+#### Linux / Mac
 
 ```bash
 source .venv/bin/activate
@@ -75,22 +102,65 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 5. Run the Application
+### 5. Install FFmpeg
+
+Download FFmpeg and add it to your system PATH.
+
+Verify installation:
 
 ```bash
-python main.py
+ffmpeg -version
 ```
 
-## 📖 How It Works
+### 6. Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+```
+
+### 7. Run the Application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## How It Works
 
 1. User uploads a video.
-2. Audio is extracted from the video.
-3. Speech is converted into text using a speech recognition model.
-4. The transcript is processed using NLP techniques.
-5. A concise summary is generated and displayed to the user.
+2. Audio is extracted using MoviePy.
+3. OpenAI Whisper converts speech into text.
+4. Transcript is sent to Groq LLM.
+5. AI generates a structured summary.
+6. Summary is displayed to the user.
+
+---
+
+## Live Demo
+
+https://video-summarizer-qjnjtkgtzm6ydfe28ccp6t.streamlit.app/
+
+---
+
+## Future Improvements
+
+* Multi-language transcription
+* Speaker identification
+* PDF summary export
+* Timestamp-based summaries
+* YouTube video summarization
+* Custom summary lengths
+* Topic-wise chapter generation
+
+---
 
 ## Author
 
-**Bhavya**
+**Bhavya Vaish**
 
-If you found this project useful, consider giving it a ⭐ on GitHub.
+## ⭐ Support
+
+If you found this project useful, please consider giving it a **Star ⭐** on GitHub.
