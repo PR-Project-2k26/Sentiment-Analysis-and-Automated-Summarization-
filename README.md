@@ -47,6 +47,7 @@ This helps users quickly understand long videos without watching the entire cont
 ### Development Tools
 
 * Git & GitHub
+* Streamlit
 
 ---
 
@@ -136,24 +137,6 @@ streamlit run app.py
 4. Transcript is sent to Groq LLM.
 5. AI generates a structured summary.
 6. Summary is displayed to the user.
-
----
-
-## Live Demo
-
-https://video-summarizer-qjnjtkgtzm6ydfe28ccp6t.streamlit.app/
-
----
-
-## Future Improvements
-
-* Multi-language transcription
-* Speaker identification
-* PDF summary export
-* Timestamp-based summaries
-* YouTube video summarization
-* Custom summary lengths
-* Topic-wise chapter generation
 
 ---
 
