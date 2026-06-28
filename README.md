@@ -149,7 +149,7 @@ npm start
 ## 🤝 Contributors
 
 - Payal Choudhary – Resume Analyzer
-- Sanidhya Dijvijay Singh – PDF Summarizer
+- Sanidhya Digvijay – PDF Summarizer
 - Sparsh Shukla – Text Summarizer
 - Yash – Audio Summarizer
 - Bhavya Vaish – Video Summarizer
