@@ -1,39 +1,39 @@
-# 📚 Sentiment Analysis and Automated Summarization Platform
+# Sentiment Analysis and Automated Summarization Platform
 
 An AI-powered web application that combines multiple Natural Language Processing (NLP) and multimedia summarization tools into a single platform. The system enables users to analyze text sentiment and generate concise summaries from various content formats, including text, PDF documents, audio recordings, videos, and resumes.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 📄 Resume Analysis
+- Resume Analysis
   - Resume parsing
   - ATS-friendly analysis
   - Skill extraction
   - Resume feedback
 
-- 📑 PDF Summarizer
+- PDF Summarizer
   - Upload PDF documents
   - Automatic text extraction
   - AI-generated summaries
 
-- 📝 Text Summarizer
+- Text Summarizer
   - Paste text directly
   - Generate concise summaries
   - Preserve important information
 
-- 🎙 Audio Summarizer
+- Audio Summarizer
   - Upload audio files
   - Speech-to-text conversion
   - AI-generated summary
 
-- 🎥 Video Summarizer
+- Video Summarizer
   - Upload video files
   - Audio extraction
   - Speech transcription
   - Automatic video summary generation
 
-- 😊 Sentiment Analysis
+- Sentiment Analysis
   - Positive
   - Neutral
   - Negative sentiment detection
@@ -41,7 +41,7 @@ An AI-powered web application that combines multiple Natural Language Processing
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 - React.js
@@ -69,7 +69,7 @@ An AI-powered web application that combines multiple Natural Language Processing
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 Sentiment-Analysis-and-Automated-Summarization
@@ -91,7 +91,7 @@ Sentiment-Analysis-and-Automated-Summarization
 
 ---
 
-## 👥 Team Workflow
+## Team Workflow
 
 This project follows a **Git Branch Collaboration** workflow.
 
@@ -109,7 +109,7 @@ Each feature is developed and tested independently before being merged into the 
 
 ---
 
-## ⚙ Installation
+## Installation
 
 Clone the repository
 
@@ -140,13 +140,8 @@ Run the backend
 ```bash
 npm start
 ```
-## 📸 Screenshots
 
-> Screenshots will be added after project completion.
-
----
-
-## 🤝 Contributors
+## Contributors
 
 - Payal Choudhary – Resume Analyzer
 - Sanidhya Digvijay – PDF Summarizer
