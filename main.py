@@ -1,23 +1,31 @@
 from moviepy.editor import VideoFileClip
 import whisper
 from groq import Groq
-import streamlit as st
 import os
+from dotenv import load_dotenv
+
+# -------------------------------
+# LOAD ENVIRONMENT VARIABLES
+# -------------------------------
+
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    raise ValueError("GROQ_API_KEY not found in .env file")
 
 # -------------------------------
 # GROQ CLIENT
 # -------------------------------
 
-client = Groq(
-    api_key=st.secrets["GROQ_API_KEY"]
-)
+client = Groq(api_key=api_key)
 
 # -------------------------------
 # EXTRACT AUDIO
 # -------------------------------
 
 def extract_audio(video_path, audio_path):
-
     video = VideoFileClip(video_path)
 
     video.audio.write_audiofile(
@@ -32,7 +40,6 @@ def extract_audio(video_path, audio_path):
 # -------------------------------
 
 def speech_to_text(audio_path):
-
     model = whisper.load_model("base")
 
     result = model.transcribe(
@@ -47,7 +54,6 @@ def speech_to_text(audio_path):
 # -------------------------------
 
 def summarize_text(text):
-
     text = text.replace("\n", " ")
     text = text[:4000]
 
@@ -95,7 +101,6 @@ Final Insight
 # -------------------------------
 
 def process_video(video_path):
-
     os.makedirs("output", exist_ok=True)
 
     audio_path = "output/audio.wav"
