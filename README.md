@@ -145,7 +145,7 @@ npm start
 
 - Payal Choudhary – Resume Analyzer
 - Sanidhya Digvijay – PDF Summarizer
-- Sparsh Shukla – Text Summarizer
+- Sparsh – Text Summarizer
 - Yash – Audio Summarizer
 - Bhavya Vaish – Video Summarizer
 ---
