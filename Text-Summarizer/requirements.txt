@@ -1,3 +1,7 @@
 groq==1.1.2
 python-dotenv==1.2.2
-streamlit==1.32.0
+streamlit>=1.38.0
+vaderSentiment==3.3.2
+wordcloud==1.9.6
+matplotlib>=3.9.2
+rouge-score==0.1.2

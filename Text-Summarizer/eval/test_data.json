@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tech_1",
+    "text": "Apple unveiled its latest iPhone lineup today, featuring a faster chip, improved camera system, and longer battery life. Reviewers praised the design and performance, calling it one of the best upgrades in years. However, some critics noted the price increase makes it less accessible for budget-conscious buyers. Despite the higher cost, pre-orders reportedly exceeded expectations within the first hour of availability, suggesting strong consumer demand.",
+    "reference_summary": "Apple's new iPhone lineup impressed reviewers with a faster chip, better camera, and longer battery life, though the higher price drew some criticism. Pre-orders still exceeded expectations within the first hour.",
+    "true_sentiment": "Positive"
+  },
+  {
+    "id": "business_1",
+    "text": "The company reported a significant drop in quarterly revenue, missing analyst expectations by a wide margin. Executives blamed the decline on supply chain disruptions and weakening consumer demand. Shares fell sharply in after-hours trading, and analysts have downgraded their outlook for the next fiscal year. Employees expressed concern about potential layoffs in the coming months.",
+    "reference_summary": "The company's quarterly revenue fell short of expectations due to supply chain issues and weak demand, causing shares to drop and prompting analyst downgrades. Employees worry about possible layoffs.",
+    "true_sentiment": "Negative"
+  },
+  {
+    "id": "environment_1",
+    "text": "A new report shows that renewable energy sources accounted for a record share of global electricity generation last year. Solar and wind power installations grew faster than expected, driven by falling costs and supportive government policies. Experts say this marks a turning point in the transition away from fossil fuels, though they caution that much more investment is needed to meet climate targets.",
+    "reference_summary": "Renewable energy hit a record share of global electricity generation last year, driven by falling costs and government support for solar and wind. Experts call it a turning point but say more investment is still needed.",
+    "true_sentiment": "Positive"
+  },
+  {
+    "id": "health_1",
+    "text": "Health officials confirmed an outbreak of a respiratory illness in several schools, prompting temporary closures in the affected districts. Parents have expressed frustration over the lack of clear communication from local authorities. Medical experts recommend basic hygiene precautions and urge anyone with symptoms to seek testing. Officials say the situation is being closely monitored.",
+    "reference_summary": "An outbreak of respiratory illness led to temporary school closures, and parents criticized poor communication from authorities. Officials are monitoring the situation and recommend hygiene precautions and testing.",
+    "true_sentiment": "Negative"
+  },
+  {
+    "id": "sports_1",
+    "text": "The national team secured a dramatic last-minute victory in the championship final, sparking celebrations across the country. The winning goal came in stoppage time after a tense, evenly matched game. Fans praised the team's resilience and determination throughout the tournament. The coach called it the proudest moment of his career.",
+    "reference_summary": "The national team won the championship with a dramatic stoppage-time goal, sparking nationwide celebrations. The coach called it the proudest moment of his career after a resilient tournament run.",
+    "true_sentiment": "Positive"
+  },
+  {
+    "id": "neutral_1",
+    "text": "The city council held its monthly meeting on Tuesday to discuss the upcoming budget proposal. Topics included road maintenance funding, public transit schedules, and park renovation plans. No major decisions were finalized, and further discussion is scheduled for next month. Council members agreed to gather additional public feedback before voting.",
+    "reference_summary": "The city council discussed the budget, road maintenance, transit, and park renovations at its monthly meeting, but made no final decisions. Further discussion and public feedback are planned before a vote next month.",
+    "true_sentiment": "Neutral"
+  }
+]
