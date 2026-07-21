@@ -1,0 +1,6 @@
+venv/
+.venv/
+.env
+output/
+__pycache__/
+*.pycg
