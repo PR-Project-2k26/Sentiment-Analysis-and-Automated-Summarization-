@@ -1,149 +1,181 @@
-# AI Video Summarizer
+# Sentiment Analysis & Automated Summarization Platform
 
-🔗 **Live Demo:** https://video-summarizer-qjnjtkgtzm6ydfe28ccp6t.streamlit.app/
-
-## Overview
-
-AI Video Summarizer is an AI-powered web application that automatically generates concise summaries from video content. The application extracts audio from uploaded videos, converts speech into text using OpenAI Whisper, and generates structured summaries using Groq LLMs.
-
-This helps users quickly understand long videos without watching the entire content.
+An AI-powered web application that combines multiple Natural Language Processing (NLP) and AI modules into a single platform. Users can analyze text sentiment, summarize text, audio, and video content, and evaluate resumes through one unified interface.
 
 ---
 
 ## Features
 
-* Upload video files for processing
-* Automatic audio extraction using FFmpeg & MoviePy
-* Speech-to-text transcription using OpenAI Whisper
-* AI-generated summaries using Groq LLM
-* Fast and efficient processing pipeline
-* Clean and user-friendly Streamlit interface
-* Supports long-form video content
-* Downloadable summary output
+### Resume Analyzer
+- ATS-friendly resume analysis
+- Skill extraction
+- Resume feedback and improvement suggestions
+
+### Text Summarizer
+- Summarize long articles and documents
+- Preserve key information
+- Fast AI-generated summaries
+
+### Audio Summarizer
+- Upload audio files
+- Speech-to-text conversion
+- AI-generated summaries
+
+### Video Summarizer
+- Upload video files
+- Automatic audio extraction
+- Speech transcription using OpenAI Whisper
+- AI-powered summaries using Groq LLM
+
+### Sentiment Analysis
+- Classifies text as Positive, Neutral, or Negative
+- Displays prediction confidence
+- Useful for reviews, feedback, and social media analysis
 
 ---
 
-## 🛠️ Tech Stack
+# Tech Stack
 
-### Frontend
+## Frontend
+- HTML5
+- CSS3
+- JavaScript
 
-* Streamlit
+## Backend
+- Python
+- Flask (Integration Layer)
 
-### Backend
+## AI & Machine Learning
+- OpenAI Whisper
+- Groq LLM
+- Hugging Face Transformers
+- Natural Language Processing (NLP)
 
-* Python
+## Audio & Video Processing
+- MoviePy
+- FFmpeg
 
-### AI & Machine Learning
-
-* OpenAI Whisper
-* Groq LLM (Llama 3.3 70B Versatile)
-* Natural Language Processing (NLP)
-
-### Video Processing
-
-* MoviePy
-* FFmpeg
-
-### Development Tools
-
-* Git & GitHub
-* Streamlit
+## Development Tools
+- Git
+- GitHub
+- VS Code
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
-Video-Summarizer/
+Sentiment-Analysis-and-Automated-Summarization
 │
-├── input/                  # Uploaded videos
-├── output/                 # Extracted audio & summaries
-├── app.py                  # Streamlit UI
-├── main.py                 # Video processing pipeline
-├── requirements.txt        # Python dependencies
-├── packages.txt            # System dependencies (FFmpeg)
-├── README.md               # Project documentation
-└── .gitignore
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   ├── js/
+│   └── assets/
+│
+├── backend/
+│
+├── audio-summarizer/
+├── text-summarizer/
+├── video-summarizer/
+├── resume-builder/
+├── sentiment-analysis/
+│
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## Installation
+# Installation
 
-### 1. Clone the Repository
+## Clone the Repository
 
 ```bash
-git clone https://github.com/bstar042005/Video-Summarizer.git
-cd Video-Summarizer
+git clone https://github.com/PR-Project-2k26/Sentiment-Analysis-and-Automated-Summarization-.git
 ```
 
-### 2. Create Virtual Environment
+## Move to Project Directory
+
+```bash
+cd Sentiment-Analysis-and-Automated-Summarization-
+```
+
+## Create Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-### 3. Activate Virtual Environment
-
-#### Windows
+### Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-#### Linux / Mac
+### Linux / macOS
 
 ```bash
 source .venv/bin/activate
 ```
 
-### 4. Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Install FFmpeg
+## Configure Environment Variables
 
-Download FFmpeg and add it to your system PATH.
-
-Verify installation:
-
-```bash
-ffmpeg -version
-```
-
-### 6. Configure Environment Variables
-
-Create a `.env` file:
+Create a `.env` file and add your API keys.
 
 ```env
-GROQ_API_KEY=your_groq_api_key
+GROQ_API_KEY=your_api_key
 ```
 
-### 7. Run the Application
+## Run the Backend
 
 ```bash
-streamlit run app.py
+python app.py
 ```
 
 ---
 
-## How It Works
+# Future Improvements
 
-1. User uploads a video.
-2. Audio is extracted using MoviePy.
-3. OpenAI Whisper converts speech into text.
-4. Transcript is sent to Groq LLM.
-5. AI generates a structured summary.
-6. Summary is displayed to the user.
+- User Authentication
+- Dashboard for previous summaries
+- Download summaries as PDF
+- Multiple language support
+- AI Chat Assistant
+- Dark/Light Theme
+- History Management
+- Cloud Deployment
 
 ---
 
-## Author
+# Team Members
 
-**Bhavya Vaish**
+| Member | Module |
+|---------|--------|
+| Payal Choudhary | Resume Analyzer |
+| Sparsh | Text Summarizer |
+| Yash | Audio Summarizer |
+| Bhavya Vaish | Video Summarizer |
+| Team | Website Integration & Sentiment Analysis |
 
-## ⭐ Support
+---
 
-If you found this project useful, please consider giving it a **Star ⭐** on GitHub.
+# Acknowledgements
+
+Special thanks to the open-source AI community and the developers of:
+
+- OpenAI Whisper
+- Groq LLM
+- Hugging Face
+- MoviePy
+- FFmpeg
+- Flask
+---
+
+⭐ If you found this project useful, consider giving it a **Star** on GitHub!

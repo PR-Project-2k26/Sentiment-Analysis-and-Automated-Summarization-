@@ -1,0 +1,7 @@
+id,rouge1,rouge2,rougeL,true_sentiment,vader_pred,vader_correct,llm_pred,llm_correct
+tech_1,0.464,0.119,0.377,Positive,Positive,True,Positive,True
+business_1,0.412,0.105,0.351,Negative,Negative,True,Negative,True
+environment_1,0.46,0.265,0.4,Positive,Positive,True,Positive,True
+health_1,0.538,0.158,0.359,Negative,Negative,True,Neutral,False
+sports_1,0.384,0.103,0.283,Positive,Positive,True,Positive,True
+neutral_1,0.523,0.21,0.411,Neutral,Neutral,True,Neutral,True
