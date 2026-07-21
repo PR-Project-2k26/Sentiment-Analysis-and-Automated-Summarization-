@@ -1,4 +1,6 @@
 venv/
-__pycache__/
+.venv/
 .env
+output/
+__pycache__/
 *.pyc

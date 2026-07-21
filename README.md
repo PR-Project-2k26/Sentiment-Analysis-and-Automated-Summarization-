@@ -30,14 +30,13 @@ An AI-powered web application that combines multiple Natural Language Processing
 - Video Summarizer
   - Upload video files
   - Audio extraction
-  - Speech transcription
-  - Automatic video summary generation
+  - Speech transcription (OpenAI Whisper)
+  - AI-generated summaries (Groq LLM)
+  - Streamlit interface
 
 - Sentiment Analysis
-  - Positive
-  - Neutral
-  - Negative sentiment detection
-  - Confidence score prediction
+  - Positive / Neutral / Negative prediction
+  - Confidence score
 
 ---
 
@@ -48,54 +47,49 @@ An AI-powered web application that combines multiple Natural Language Processing
 - HTML5
 - CSS3
 - JavaScript
+- Streamlit (Video Module)
 
 ### Backend
 - Node.js
 - Express.js
+- Python
 
 ### Database
 - MongoDB
 
 ### AI / NLP
-- Python
 - Transformers
 - Hugging Face
-- NLP Models
+- OpenAI Whisper
+- Groq LLM
 
 ### Other Tools
+- FFmpeg
+- MoviePy
 - Git
 - GitHub
 - VS Code
 
 ---
 
-##  Project Structure
+## Project Structure
 
-```
+```text
 Sentiment-Analysis-and-Automated-Summarization
 │
-├── frontend
-│
-├── backend
-│
-├── Resume-Builder
-│
-├── PDF-Summarizer
-│
-├── Text-Summarizer
-│
-├── Audio-Summarizer
-│
-└── Video-Summarizer
+├── audio-summarizer/
+├── pdf-summarizer/
+├── text-summarizer/
+├── resume-builder/
+├── video-summarizer/
+└── ...
 ```
 
 ---
 
 ## Team Workflow
 
-This project follows a **Git Branch Collaboration** workflow.
-
-Each team member is responsible for one independent module.
+Each feature was developed independently in its own Git branch and later merged into `main`.
 
 | Branch | Module |
 |---------|---------|
@@ -105,41 +99,20 @@ Each team member is responsible for one independent module.
 | Audio-Summarizer | Audio Summarizer |
 | Video-Summarizer | Video Summarizer |
 
-Each feature is developed and tested independently before being merged into the `main` branch.
-
 ---
 
 ## Installation
 
-Clone the repository
-
 ```bash
 git clone https://github.com/PR-Project-2k26/Sentiment-Analysis-and-Automated-Summarization-.git
-```
 
-Move into the project directory
-
-```bash
 cd Sentiment-Analysis-and-Automated-Summarization-
-```
 
-Install dependencies
-
-```bash
 npm install
-```
-
-Run the frontend
-
-```bash
 npm run dev
 ```
 
-Run the backend
-
-```bash
-npm start
-```
+---
 
 ## Contributors
 
@@ -148,6 +121,7 @@ npm start
 - Sparsh – Text Summarizer
 - Yash – Audio Summarizer
 - Bhavya Vaish – Video Summarizer
+
 ---
 
 ⭐ If you found this project helpful, consider giving it a star.
