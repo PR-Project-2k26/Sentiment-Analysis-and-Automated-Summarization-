@@ -17,8 +17,13 @@ import PDF from "../pages/Modules/PDF";
 import Video from "../pages/Modules/Video";
 import Audio from "../pages/Modules/Audio";
 import Text from "../pages/Modules/Text";
+
+// User Pages
 import Profile from "../pages/Profile/Profile";
 import Settings from "../pages/Settings/Settings";
+
+// Protected Route
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -32,24 +37,84 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* AI Modules */}
-        <Route path="/resume" element={<Resume />} />
-        <Route path="/pdf" element={<PDF />} />
-        <Route path="/video" element={<Video />} />
-        <Route path="/audio" element={<Audio />} />
-        <Route path="/text" element={<Text />} />
+        <Route
+          path="/resume"
+          element={
+            <ProtectedRoute>
+              <Resume />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route
+          path="/pdf"
+          element={
+            <ProtectedRoute>
+              <PDF />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/video"
+          element={
+            <ProtectedRoute>
+              <Video />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/audio"
+          element={
+            <ProtectedRoute>
+              <Audio />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/text"
+          element={
+            <ProtectedRoute>
+              <Text />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
         {/* 404 Page */}
         <Route
           path="*"
           element={
-            <div className="min-h-screen bg-[#09090B] flex items-center justify-center text-white text-4xl font-bold">
+            <div className="min-h-screen flex items-center justify-center bg-[#09090B] text-4xl font-bold text-white">
               404 | Page Not Found
             </div>
           }

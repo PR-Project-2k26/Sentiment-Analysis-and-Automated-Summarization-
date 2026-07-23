@@ -1,5 +1,11 @@
 import api from "./api";
 
-export const getDashboardData = () => {
-  return api.get("/dashboard");
+export const getProfile = async () => {
+  const token = localStorage.getItem("token");
+
+  return api.get("/auth/profile", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
