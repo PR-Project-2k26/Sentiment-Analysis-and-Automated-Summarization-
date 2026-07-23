@@ -1,19 +1,32 @@
-const ModuleCard = ({ title, description, emoji }) => {
+import { Link } from "react-router-dom";
+
+const ModuleCard = ({ title, description, emoji, link }) => {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/40 hover:bg-white/10">
-      <div className="text-4xl">{emoji}</div>
 
+      {/* Emoji */}
+      <div className="text-4xl">
+        {emoji}
+      </div>
+
+      {/* Title */}
       <h3 className="mt-5 text-2xl font-bold text-white">
         {title}
       </h3>
 
+      {/* Description */}
       <p className="mt-3 text-gray-400">
         {description}
       </p>
 
-      <button className="mt-6 rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700 transition">
+      {/* Button */}
+      <Link
+        to={link}
+        className="mt-6 inline-block rounded-lg bg-blue-600 px-5 py-2 text-white font-medium transition hover:bg-blue-700"
+      >
         Open Module →
-      </button>
+      </Link>
+
     </div>
   );
 };
