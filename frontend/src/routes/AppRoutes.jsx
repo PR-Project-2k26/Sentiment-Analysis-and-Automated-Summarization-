@@ -17,6 +17,8 @@ import PDF from "../pages/Modules/PDF";
 import Video from "../pages/Modules/Video";
 import Audio from "../pages/Modules/Audio";
 import Text from "../pages/Modules/Text";
+import Profile from "../pages/Profile/Profile";
+import Settings from "../pages/Settings/Settings";
 
 const AppRoutes = () => {
   return (
@@ -39,6 +41,9 @@ const AppRoutes = () => {
         <Route path="/video" element={<Video />} />
         <Route path="/audio" element={<Audio />} />
         <Route path="/text" element={<Text />} />
+
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
 
         {/* 404 Page */}
         <Route
