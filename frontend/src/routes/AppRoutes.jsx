@@ -11,6 +11,9 @@ import ForgotPassword from "../pages/Auth/ForgotPassword";
 // Dashboard
 import Dashboard from "../pages/Dashboard/Dashboard";
 
+// History
+import History from "../pages/History/History";
+
 // AI Module Pages
 import Resume from "../pages/Modules/Resume";
 import PDF from "../pages/Modules/PDF";
@@ -29,6 +32,7 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+
         {/* Landing Page */}
         <Route path="/" element={<Home />} />
 
@@ -38,11 +42,21 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Protected Routes */}
+
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
             </ProtectedRoute>
           }
         />
@@ -119,6 +133,7 @@ const AppRoutes = () => {
             </div>
           }
         />
+
       </Routes>
     </BrowserRouter>
   );
