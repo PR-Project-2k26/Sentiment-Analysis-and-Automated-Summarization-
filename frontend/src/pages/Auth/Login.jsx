@@ -41,10 +41,10 @@ const Login = () => {
 
       const response = await loginUser(formData);
 
-      // Save JWT token
-      localStorage.setItem("token", response.data.access_token);
+      // Save JWT Token
+      localStorage.setItem("token", response.data.token);
 
-      // Save user if backend returns it
+      // Save User Data
       if (response.data.user) {
         localStorage.setItem(
           "user",
@@ -64,7 +64,7 @@ const Login = () => {
 
       setMessage(
         error.response?.data?.message ||
-        "Invalid email or password."
+          "Invalid email or password."
       );
     } finally {
       setLoading(false);
@@ -75,7 +75,6 @@ const Login = () => {
     <AuthLayout>
       <AuthCard>
         <form onSubmit={handleLogin}>
-
           <AuthHeader
             title="Welcome Back 👋"
             subtitle="Sign in to continue using SummarAI."
@@ -129,7 +128,6 @@ const Login = () => {
           >
             {loading ? "Signing In..." : "Login"}
           </button>
-
         </form>
 
         <Divider />

@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from routes.history import history
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 import os
@@ -28,6 +29,7 @@ connect_db()
 
 # Register Blueprints
 app.register_blueprint(auth, url_prefix="/api/auth")
+app.register_blueprint(history, url_prefix="/api/history")
 
 
 # -------------------------
