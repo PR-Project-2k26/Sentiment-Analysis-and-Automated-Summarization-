@@ -3,42 +3,56 @@ import AuthCard from "../../components/Authentication/AuthCard";
 import AuthHeader from "../../components/Authentication/AuthHeader";
 import AuthInput from "../../components/Authentication/AuthInput";
 import PasswordInput from "../../components/Authentication/PasswordInput";
+import Divider from "../../components/Authentication/Divider";
+import SocialButtons from "../../components/Authentication/SocialButtons";
+import AuthFooter from "../../components/Authentication/AuthFooter";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
     <AuthLayout>
       <AuthCard>
         <AuthHeader
-        title="Welcome Back 👋"
-        subtitle="Sign in to continue using SummarAI."
+          title="Welcome Back 👋"
+          subtitle="Sign in to continue using SummarAI."
         />
 
         <AuthInput
-        label="Email"
-        type="email"
-        placeholder="Enter your email"
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
         />
 
         <PasswordInput />
 
         <div className="mb-6 flex items-center justify-between">
-
-        <label className="flex items-center gap-2 text-sm text-gray-400">
+          <label className="flex items-center gap-2 text-sm text-gray-400">
             <input type="checkbox" />
             Remember Me
-        </label>
+          </label>
 
-        <button className="text-sm text-blue-400 hover:text-blue-300">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-400 hover:text-blue-300"
+            >
             Forgot Password?
-        </button>
-
+            </Link>
         </div>
 
         <button className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
-        Login
+          Login
         </button>
-            </AuthCard>
-            </AuthLayout>
+
+        {/* Divider */}
+        <Divider />
+
+        {/* Social Login Buttons */}
+        <SocialButtons />
+
+        {/* Register Link */}
+        <AuthFooter />
+      </AuthCard>
+    </AuthLayout>
   );
 };
 
