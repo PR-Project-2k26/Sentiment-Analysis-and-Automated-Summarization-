@@ -1,10 +1,27 @@
+import ModuleLayout from "../../layouts/ModuleLayout";
+import FileUploadBox from "../../components/Modules/FileUploadBox";
+import ResultCard from "../../components/Modules/ResultCard";
+
 const PDF = () => {
   return (
-    <div className="min-h-screen bg-[#09090B] flex items-center justify-center">
-      <h1 className="text-6xl font-bold text-white">
-        PDF Summarizer
-      </h1>
-    </div>
+    <ModuleLayout
+      title="PDF Summarizer"
+      description="Upload a PDF and generate an AI-powered summary."
+    >
+      <FileUploadBox />
+
+      <button className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700 transition">
+        Summarize PDF
+      </button>
+
+      <div className="mt-8">
+        <ResultCard title="Summary">
+          <p className="text-gray-400">
+            Upload a PDF to generate a summary.
+          </p>
+        </ResultCard>
+      </div>
+    </ModuleLayout>
   );
 };
 
