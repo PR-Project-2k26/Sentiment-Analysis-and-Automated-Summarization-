@@ -43,3 +43,63 @@ def save_history():
         "message": "History saved successfully.",
         "history_id": history_id
     }), 201
+
+
+# ----------------------------
+# Get User History
+# ----------------------------
+@history.route("/", methods=["GET"])
+@jwt_required()
+def get_history():
+
+    user_id = get_jwt_identity()
+
+    history = HistoryService.get_user_history(user_id)
+
+    return jsonify({
+        "success": True,
+        "history": history
+    }), 200
+
+
+# ----------------------------
+# Delete One History
+# ----------------------------
+@history.route("/<history_id>", methods=["DELETE"])
+@jwt_required()
+def delete_history(history_id):
+
+    user_id = get_jwt_identity()
+
+    deleted = HistoryService.delete_history(
+        user_id=user_id,
+        history_id=history_id
+    )
+
+    if not deleted:
+        return jsonify({
+            "success": False,
+            "message": "History not found."
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "message": "History deleted successfully."
+    }), 200
+
+
+# ----------------------------
+# Clear All History
+# ----------------------------
+@history.route("/", methods=["DELETE"])
+@jwt_required()
+def clear_history():
+
+    user_id = get_jwt_identity()
+
+    deleted_count = HistoryService.clear_history(user_id)
+
+    return jsonify({
+        "success": True,
+        "message": f"{deleted_count} history record(s) deleted."
+    }), 200
