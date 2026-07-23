@@ -2,6 +2,9 @@ const AuthInput = ({
   label,
   type = "text",
   placeholder,
+  name,
+  value,
+  onChange,
 }) => {
   return (
     <div className="mb-5">
@@ -11,6 +14,9 @@ const AuthInput = ({
 
       <input
         type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
       />
