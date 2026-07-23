@@ -7,19 +7,24 @@ load_dotenv()
 client = None
 db = None
 
+
 def connect_db():
     global client, db
 
     try:
-        client = MongoClient(os.getenv("MONGO_URI"))
-        db = client["summarai"]
+        mongo_uri = os.getenv("MONGO_URI")
+
+        client = MongoClient(mongo_uri)
 
         client.admin.command("ping")
+
+        db = client["summarai"]
 
         print("✅ MongoDB Connected Successfully!")
 
         return db
 
     except Exception as e:
-        print(f"❌ MongoDB Connection Error: {e}")
+        print("❌ MongoDB Connection Failed!")
+        print(e)
         return None
