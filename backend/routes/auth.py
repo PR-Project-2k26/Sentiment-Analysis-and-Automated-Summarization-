@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from email_validator import validate_email, EmailNotValidError
 from flask_jwt_extended import create_access_token
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from bson import ObjectId
 import config.db as database
 from models.user import User
 from utils.password import hash_password, verify_password
@@ -105,5 +106,36 @@ def login():
             "id": str(user["_id"]),
             "name": user["name"],
             "email": user["email"]
+        }
+    }), 200
+
+# ----------------------------
+# Profile
+# ----------------------------
+@auth.route("/profile", methods=["GET"])
+@jwt_required()
+def profile():
+
+    user_id = get_jwt_identity()
+
+    users = database.db["users"]
+
+    user = users.find_one({
+        "_id": ObjectId(user_id)
+    })
+
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "user": {
+            "id": str(user["_id"]),
+            "name": user["name"],
+            "email": user["email"],
+            "created_at": str(user["created_at"])
         }
     }), 200
