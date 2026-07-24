@@ -56,8 +56,15 @@ const Login = () => {
       setMessage("Login successful!");
 
       setTimeout(() => {
+      const redirect = sessionStorage.getItem("redirectAfterLogin");
+
+      if (redirect) {
+        sessionStorage.removeItem("redirectAfterLogin");
+        navigate(redirect);
+      } else {
         navigate("/dashboard");
-      }, 1000);
+      }
+    }, 1000);
 
     } catch (error) {
       setIsError(true);

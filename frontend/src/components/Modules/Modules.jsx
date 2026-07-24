@@ -35,7 +35,7 @@ const modules = [
 
 const Modules = () => {
   return (
-    <section className="bg-[#09090B] py-24 px-6">
+    <section id="modules" className="bg-[#09090B] py-24 px-6">
       <div className="mx-auto max-w-7xl">
 
         {/* Heading */}

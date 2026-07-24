@@ -18,7 +18,7 @@ const steps = [
 
 const Architecture = () => {
   return (
-    <section className="bg-[#09090B] py-24 px-6">
+    <section id="architecture" className="bg-[#09090B] py-24 px-6">
       <div className="max-w-7xl mx-auto">
 
         <div className="text-center">

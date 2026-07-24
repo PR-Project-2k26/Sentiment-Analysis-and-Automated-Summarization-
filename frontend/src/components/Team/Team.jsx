@@ -19,7 +19,7 @@ const teamMembers = [
 
 const Team = () => {
   return (
-    <section className="bg-[#0D0D0D] py-24 px-6">
+    <section id="team" className="bg-[#0D0D0D] py-24 px-6">
       <div className="max-w-7xl mx-auto">
 
         <div className="text-center">
