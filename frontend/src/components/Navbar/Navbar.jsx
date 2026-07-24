@@ -5,14 +5,6 @@ const Navbar = () => {
 
   const token = localStorage.getItem("token");
 
-  const handleGetStarted = () => {
-    if (token) {
-      navigate("/dashboard");
-    } else {
-      navigate("/login");
-    }
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -25,16 +17,14 @@ const Navbar = () => {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
         {/* Logo */}
-
         <Link
           to="/"
           className="text-2xl font-bold text-white"
         >
-          AI <span className="text-blue-500">Summarizer</span>
+          Summar<span className="text-blue-500">AI</span>
         </Link>
 
         {/* Center Links */}
-
         <div className="hidden items-center gap-8 md:flex">
 
           <a
@@ -61,7 +51,6 @@ const Navbar = () => {
         </div>
 
         {/* Right Side */}
-
         {!token ? (
           <div className="flex items-center gap-4">
 
