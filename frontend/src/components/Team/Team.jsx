@@ -1,26 +1,30 @@
 const teamMembers = [
   {
-    name: "Bhavya",
-    role: "Frontend Developer",
+    name: "Bhavya Vaish",
+    role: "Lead Developer • Frontend, Backend & Video Module Integration",
   },
   {
-    name: "Member 2",
-    role: "Backend Developer",
+    name: "Payal Choudhary",
+    role: "Resume Analyzer Module",
   },
   {
-    name: "Member 3",
-    role: "AI/ML Engineer",
+    name: "Sparsh Shukla",
+    role: "Text Summarizer Module",
   },
   {
-    name: "Member 4",
-    role: "UI/UX Designer",
+    name: "Yash",
+    role: "Audio Summarizer Module",
+  },
+  {
+    name: "Sanidhya Digvijay Singh",
+    role: "PDF Summarizer Module",
   },
 ];
 
 const Team = () => {
   return (
     <section id="team" className="bg-[#0D0D0D] py-24 px-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto max-w-7xl">
 
         <div className="text-center">
           <h2 className="text-5xl font-bold text-white">
@@ -32,11 +36,11 @@ const Team = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center hover:border-blue-500/40 transition"
+              className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition hover:border-blue-500/40"
             >
               <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-blue-600 text-3xl font-bold text-white">
                 {member.name.charAt(0)}
