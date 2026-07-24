@@ -180,3 +180,57 @@ def update_profile():
         "success": True,
         "message": "Profile updated successfully."
     }), 200
+
+# ----------------------------
+# Change Password
+# ----------------------------
+@auth.route("/change-password", methods=["PUT"])
+@jwt_required()
+def change_password():
+
+    data = request.get_json()
+
+    current_password = data.get("currentPassword")
+    new_password = data.get("newPassword")
+
+    if not current_password or not new_password:
+        return jsonify({
+            "success": False,
+            "message": "Current and new passwords are required."
+        }), 400
+
+    user_id = get_jwt_identity()
+
+    users = database.db["users"]
+
+    user = users.find_one({
+        "_id": ObjectId(user_id)
+    })
+
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+
+    if not verify_password(current_password, user["password"]):
+        return jsonify({
+            "success": False,
+            "message": "Current password is incorrect."
+        }), 401
+
+    users.update_one(
+        {
+            "_id": ObjectId(user_id)
+        },
+        {
+            "$set": {
+                "password": hash_password(new_password)
+            }
+        }
+    )
+
+    return jsonify({
+        "success": True,
+        "message": "Password updated successfully."
+    }), 200
