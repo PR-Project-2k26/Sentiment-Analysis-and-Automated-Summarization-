@@ -10,6 +10,7 @@ from routes.auth import auth
 from routes.history import history
 from routes.dashboard import dashboard
 from routes.resume import resume
+from routes.video import video
 
 # Load environment variables
 load_dotenv()
@@ -37,6 +38,7 @@ app.register_blueprint(auth, url_prefix="/api/auth")
 app.register_blueprint(history, url_prefix="/api/history")
 app.register_blueprint(dashboard, url_prefix="/api/dashboard")
 app.register_blueprint(resume, url_prefix="/api/resume")
+app.register_blueprint(video, url_prefix="/api/video")
 
 
 # -------------------------

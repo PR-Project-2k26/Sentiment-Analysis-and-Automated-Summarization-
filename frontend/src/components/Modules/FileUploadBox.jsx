@@ -1,6 +1,12 @@
 import { useRef } from "react";
 
-const FileUploadBox = ({ selectedFile, onFileSelect }) => {
+const FileUploadBox = ({
+  selectedFile,
+  onFileSelect,
+  accept = "*",
+  title = "Drag & Drop your File",
+  icon = "📄",
+}) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -16,10 +22,10 @@ const FileUploadBox = ({ selectedFile, onFileSelect }) => {
       className="flex h-56 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-600 bg-white/5 transition hover:border-blue-500 hover:bg-white/10"
       onClick={() => fileInputRef.current.click()}
     >
-      <span className="text-5xl">📄</span>
+      <span className="text-5xl">{icon}</span>
 
       <h2 className="mt-4 text-xl font-semibold text-white">
-        {selectedFile ? selectedFile.name : "Drag & Drop your Resume"}
+        {selectedFile ? selectedFile.name : title}
       </h2>
 
       <p className="mt-2 text-gray-400">
@@ -31,7 +37,7 @@ const FileUploadBox = ({ selectedFile, onFileSelect }) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".pdf"
+        accept={accept}
         className="hidden"
         onChange={handleFileChange}
       />

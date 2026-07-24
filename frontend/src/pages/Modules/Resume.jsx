@@ -46,9 +46,12 @@ const Resume = () => {
       description="Upload your resume to get ATS score and AI-powered suggestions."
     >
       <FileUploadBox
-        selectedFile={selectedFile}
-        onFileSelect={setSelectedFile}
-      />
+      selectedFile={selectedFile}
+      onFileSelect={setSelectedFile}
+      accept=".pdf"
+      title="Drag & Drop your Resume"
+      icon="📄"
+    />
 
       <textarea
         value={jobDescription}
