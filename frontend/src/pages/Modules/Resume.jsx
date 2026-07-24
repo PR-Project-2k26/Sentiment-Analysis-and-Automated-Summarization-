@@ -5,6 +5,7 @@ import FileUploadBox from "../../components/Modules/FileUploadBox";
 import ResultCard from "../../components/Modules/ResultCard";
 
 import { analyzeResume } from "../../services/resumeService";
+import { saveHistory } from "../../services/historyService";
 
 const Resume = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,11 +23,24 @@ const Resume = () => {
       setLoading(true);
 
       const response = await analyzeResume(
-        selectedFile,
-        jobDescription
-      );
+      selectedFile,
+      jobDescription
+    );
 
-      setResult(response);
+    setResult(response);
+
+    // Save to History
+    await saveHistory({
+      module: "Resume Analyzer",
+      file_name: selectedFile.name,
+      summary: JSON.stringify({
+        resumeScore: response.resumeScore,
+        atsScore: response.atsScore,
+        skillScore: response.skillScore,
+      }),
+      processing_time: 0,
+      status: "Completed",
+    });
 
     } catch (error) {
       console.error(error);

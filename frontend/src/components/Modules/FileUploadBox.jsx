@@ -5,7 +5,6 @@ const FileUploadBox = ({
   onFileSelect,
   accept = "*",
   title = "Drag & Drop your File",
-  icon = "📄",
 }) => {
   const fileInputRef = useRef(null);
 
@@ -22,9 +21,7 @@ const FileUploadBox = ({
       className="flex h-56 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-600 bg-white/5 transition hover:border-blue-500 hover:bg-white/10"
       onClick={() => fileInputRef.current.click()}
     >
-      <span className="text-5xl">{icon}</span>
-
-      <h2 className="mt-4 text-xl font-semibold text-white">
+      <h2 className="text-xl font-semibold text-white">
         {selectedFile ? selectedFile.name : title}
       </h2>
 

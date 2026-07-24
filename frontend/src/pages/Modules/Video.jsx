@@ -5,12 +5,11 @@ import FileUploadBox from "../../components/Modules/FileUploadBox";
 import ResultCard from "../../components/Modules/ResultCard";
 
 import { uploadVideo } from "../../services/videoService";
+import { saveHistory } from "../../services/historyService";
 
 const Video = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-
   const [loading, setLoading] = useState(false);
-
   const [result, setResult] = useState(null);
 
   const handleUpload = async () => {
@@ -25,6 +24,16 @@ const Video = () => {
       const response = await uploadVideo(selectedFile);
 
       setResult(response);
+
+      // Save to History
+      await saveHistory({
+        module: "Video Summarizer",
+        file_name: selectedFile.name,
+        summary: response.summary,
+        processing_time: response.latency_sec || 0,
+        status: "Completed",
+      });
+
     } catch (error) {
       console.error(error);
 
@@ -43,12 +52,12 @@ const Video = () => {
       description="Upload a video and generate an AI-powered summary."
     >
       <FileUploadBox
-      selectedFile={selectedFile}
-      onFileSelect={setSelectedFile}
-      accept=".mp4,.mov,.avi,.mkv"
-      title="Drag & Drop your Video"
-      icon="🎥"
-    />
+        selectedFile={selectedFile}
+        onFileSelect={setSelectedFile}
+        accept=".mp4,.mov,.avi,.mkv"
+        title="Drag & Drop your Video"
+        icon="🎥"
+      />
 
       <button
         onClick={handleUpload}

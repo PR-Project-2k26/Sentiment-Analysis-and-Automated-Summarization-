@@ -52,6 +52,32 @@ app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 # -------------------------
 jwt = JWTManager(app)
 
+@jwt.invalid_token_loader
+def invalid_token_callback(error):
+    print("INVALID TOKEN:", error)
+    return jsonify({
+        "success": False,
+        "message": error
+    }), 401
+
+
+@jwt.unauthorized_loader
+def unauthorized_callback(error):
+    print("UNAUTHORIZED:", error)
+    return jsonify({
+        "success": False,
+        "message": error
+    }), 401
+
+
+@jwt.expired_token_loader
+def expired_token_callback(jwt_header, jwt_payload):
+    print("TOKEN EXPIRED")
+    return jsonify({
+        "success": False,
+        "message": "Token expired"
+    }), 401
+
 mail.init_app(app)
 
 # -------------------------

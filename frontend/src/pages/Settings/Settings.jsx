@@ -53,7 +53,7 @@ const Settings = () => {
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
           <h1 className="mb-8 text-3xl font-bold text-white">
-            ⚙️ Settings
+            Settings
           </h1>
 
           <h2 className="mb-6 text-xl font-semibold text-white">

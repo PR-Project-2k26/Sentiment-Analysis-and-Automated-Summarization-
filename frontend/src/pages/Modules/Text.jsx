@@ -4,6 +4,7 @@ import ModuleLayout from "../../layouts/ModuleLayout";
 import ResultCard from "../../components/Modules/ResultCard";
 
 import { summarizeText } from "../../services/textService";
+import { saveHistory } from "../../services/historyService";
 
 const Text = () => {
   const [text, setText] = useState("");
@@ -23,6 +24,16 @@ const Text = () => {
       const response = await summarizeText(text, length);
 
       setResult(response);
+
+      // Save to History
+      await saveHistory({
+        module: "Text Summarizer",
+        file_name: "Manual Text",
+        summary: response.summary,
+        processing_time: response.latency_sec || 0,
+        status: "Completed",
+      });
+
     } catch (error) {
       console.error(error);
 

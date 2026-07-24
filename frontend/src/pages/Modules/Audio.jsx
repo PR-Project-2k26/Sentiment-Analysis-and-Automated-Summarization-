@@ -5,6 +5,7 @@ import FileUploadBox from "../../components/Modules/FileUploadBox";
 import ResultCard from "../../components/Modules/ResultCard";
 
 import { uploadAudio } from "../../services/audioService";
+import { saveHistory } from "../../services/historyService";
 
 const Audio = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -23,6 +24,16 @@ const Audio = () => {
       const response = await uploadAudio(selectedFile);
 
       setResult(response);
+
+      // Save to History
+      await saveHistory({
+        module: "Audio Summarizer",
+        file_name: selectedFile.name,
+        summary: response.summary,
+        processing_time: 0,
+        status: "Completed",
+      });
+
     } catch (error) {
       console.error(error);
 

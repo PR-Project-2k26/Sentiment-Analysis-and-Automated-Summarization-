@@ -6,18 +6,14 @@ const ModuleLayout = ({ title, description, children }) => {
       <Sidebar />
 
       <main className="flex-1 overflow-y-auto p-8">
-        <Topbar />
+        <h1 className="text-4xl font-bold">{title}</h1>
+
+        <p className="mt-2 text-gray-400">
+          {description}
+        </p>
 
         <div className="mt-8">
-          <h1 className="text-4xl font-bold">{title}</h1>
-
-          <p className="mt-2 text-gray-400">
-            {description}
-          </p>
-
-          <div className="mt-8">
-            {children}
-          </div>
+          {children}
         </div>
       </main>
     </div>
