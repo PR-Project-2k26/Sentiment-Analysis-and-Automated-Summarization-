@@ -9,6 +9,7 @@ from config.db import connect_db
 from routes.auth import auth
 from routes.history import history
 from routes.dashboard import dashboard
+from routes.resume import resume
 
 # Load environment variables
 load_dotenv()
@@ -35,6 +36,7 @@ connect_db()
 app.register_blueprint(auth, url_prefix="/api/auth")
 app.register_blueprint(history, url_prefix="/api/history")
 app.register_blueprint(dashboard, url_prefix="/api/dashboard")
+app.register_blueprint(resume, url_prefix="/api/resume")
 
 
 # -------------------------
