@@ -3,31 +3,31 @@ import ModuleCard from "./ModuleCard";
 const modules = [
   {
     title: "Resume Analyzer",
-    emoji: "📄",
+    //emoji: "📄",
     path: "/resume",
     description: "Analyze ATS score and improve resumes.",
   },
   {
     title: "PDF Summarizer",
-    emoji: "📚",
+    //emoji: "📚",
     path: "/pdf",
     description: "Summarize long PDF documents instantly.",
   },
   {
     title: "Video Summarizer",
-    emoji: "🎥",
+    //emoji: "🎥",
     path: "/video",
     description: "Generate summaries from videos.",
   },
   {
     title: "Audio Summarizer",
-    emoji: "🎧",
+    //emoji: "🎧",
     path: "/audio",
     description: "Convert speech into summarized notes.",
   },
   {
     title: "Text Summarizer",
-    emoji: "📝",
+    //emoji: "📝",
     path: "/text",
     description: "Summarize long articles and documents.",
   },

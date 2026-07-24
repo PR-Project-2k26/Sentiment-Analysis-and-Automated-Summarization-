@@ -1,5 +1,4 @@
 import Sidebar from "../Dashboard/Sidebar";
-import Topbar from "../Dashboard/Topbar";
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -7,9 +6,7 @@ const DashboardLayout = ({ children }) => {
       <Sidebar />
 
       <main className="flex-1 overflow-y-auto p-8">
-        <Topbar />
-
-        <div className="mt-8">{children}</div>
+        {children}
       </main>
     </div>
   );

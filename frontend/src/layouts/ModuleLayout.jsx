@@ -1,5 +1,4 @@
 import Sidebar from "../components/Dashboard/Sidebar";
-import Topbar from "../components/Dashboard/Topbar";
 
 const ModuleLayout = ({ title, description, children }) => {
   return (

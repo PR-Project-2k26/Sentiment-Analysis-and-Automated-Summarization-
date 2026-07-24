@@ -6,7 +6,6 @@ import Welcome from "../../components/Dashboard/Welcome";
 import StatsGrid from "../../components/Dashboard/StatsGrid";
 import ModuleGrid from "../../components/Dashboard/ModuleGrid";
 import UsageChart from "../../components/Dashboard/UsageChart";
-import QuickActions from "../../components/Dashboard/QuickActions";
 import RecentActivity from "../../components/Dashboard/RecentActivity";
 
 import { getDashboardStats } from "../../services/dashboardService";
@@ -14,6 +13,9 @@ import { getDashboardStats } from "../../services/dashboardService";
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Logged-in user
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -33,7 +35,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex items-center justify-center h-96 text-gray-400">
+        <div className="flex h-96 items-center justify-center text-gray-400">
           Loading Dashboard...
         </div>
       </DashboardLayout>
@@ -43,25 +45,17 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-        <Welcome />
+        <Welcome user={user} />
 
         <StatsGrid stats={dashboardData} />
 
-        <div className="grid gap-8 xl:grid-cols-3">
-          <div className="space-y-8 xl:col-span-2">
-            <ModuleGrid />
+        <ModuleGrid />
 
-            <UsageChart stats={dashboardData} />
-          </div>
+        <UsageChart stats={dashboardData} />
 
-          <div className="space-y-8">
-            <QuickActions />
-
-            <RecentActivity
-              activities={dashboardData?.recentActivity || []}
-            />
-          </div>
-        </div>
+        <RecentActivity
+          activities={dashboardData?.recentActivity || []}
+        />
       </div>
     </DashboardLayout>
   );
