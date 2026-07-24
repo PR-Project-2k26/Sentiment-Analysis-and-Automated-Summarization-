@@ -14,23 +14,49 @@ from routes.video import video
 from routes.audio import audio
 from routes.text import text
 
-# Load environment variables
+# Flask Mail
+from services.mail import mail
+
+# -------------------------
+# Load Environment Variables
+# -------------------------
 load_dotenv()
 
-# Create Flask app
+# -------------------------
+# Create Flask App
+# -------------------------
 app = Flask(__name__)
 
+# -------------------------
 # Enable CORS
+# -------------------------
 CORS(app)
 
+# -------------------------
 # Configuration
+# -------------------------
 app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
-# Initialize JWT
+# -------------------------
+# Mail Configuration
+# -------------------------
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS") == "True"
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+
+# -------------------------
+# Initialize Extensions
+# -------------------------
 jwt = JWTManager(app)
 
-# Connect to MongoDB
+mail.init_app(app)
+
+# -------------------------
+# Connect MongoDB
+# -------------------------
 connect_db()
 
 # -------------------------
@@ -43,7 +69,6 @@ app.register_blueprint(resume, url_prefix="/api/resume")
 app.register_blueprint(video, url_prefix="/api/video")
 app.register_blueprint(audio, url_prefix="/api/audio")
 app.register_blueprint(text, url_prefix="/api/text")
-
 
 # -------------------------
 # Home Route

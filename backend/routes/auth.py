@@ -6,6 +6,9 @@ from bson import ObjectId
 import config.db as database
 from models.user import User
 from utils.password import hash_password, verify_password
+from utils.token import generate_reset_token, verify_reset_token
+from services.mail import send_reset_email
+import os
 
 auth = Blueprint("auth", __name__)
 
@@ -233,4 +236,99 @@ def change_password():
     return jsonify({
         "success": True,
         "message": "Password updated successfully."
+    }), 200
+
+# ----------------------------
+# Forgot Password
+# ----------------------------
+@auth.route("/forgot-password", methods=["POST"])
+def forgot_password():
+
+    data = request.get_json()
+
+    email = data.get("email")
+
+    if not email:
+        return jsonify({
+            "success": False,
+            "message": "Email is required."
+        }), 400
+
+    users = database.db["users"]
+
+    user = users.find_one({
+        "email": email.lower()
+    })
+
+    # Don't reveal whether the email exists
+    if not user:
+        return jsonify({
+            "success": True,
+            "message": "If the email exists, a reset link has been sent."
+        }), 200
+
+    token = generate_reset_token(email)
+
+    reset_link = (
+        f"{os.getenv('FRONTEND_URL')}"
+        f"/reset-password/{token}"
+    )
+
+    send_reset_email(email, reset_link)
+
+    return jsonify({
+        "success": True,
+        "message": "Password reset link sent successfully."
+    }), 200
+
+# ----------------------------
+# Reset Password
+# ----------------------------
+@auth.route("/reset-password/<token>", methods=["POST"])
+def reset_password(token):
+
+    data = request.get_json()
+
+    new_password = data.get("password")
+
+    if not new_password:
+        return jsonify({
+            "success": False,
+            "message": "Password is required."
+        }), 400
+
+    email = verify_reset_token(token)
+
+    if not email:
+        return jsonify({
+            "success": False,
+            "message": "Invalid or expired reset link."
+        }), 400
+
+    users = database.db["users"]
+
+    user = users.find_one({
+        "email": email.lower()
+    })
+
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+
+    users.update_one(
+        {
+            "_id": user["_id"]
+        },
+        {
+            "$set": {
+                "password": hash_password(new_password)
+            }
+        }
+    )
+
+    return jsonify({
+        "success": True,
+        "message": "Password reset successfully."
     }), 200
