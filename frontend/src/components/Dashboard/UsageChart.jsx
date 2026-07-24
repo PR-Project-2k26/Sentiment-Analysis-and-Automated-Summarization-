@@ -8,15 +8,15 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const data = [
-  { name: "Resume", count: 24 },
-  { name: "PDF", count: 18 },
-  { name: "Video", count: 9 },
-  { name: "Audio", count: 12 },
-  { name: "Text", count: 15 },
-];
+const UsageChart = ({ stats }) => {
+  const data = [
+    { name: "Resume", count: stats?.resume || 0 },
+    { name: "PDF", count: stats?.pdf || 0 },
+    { name: "Video", count: stats?.video || 0 },
+    { name: "Audio", count: stats?.audio || 0 },
+    { name: "Text", count: stats?.text || 0 },
+  ];
 
-const UsageChart = () => {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
       <h2 className="mb-6 text-2xl font-bold text-white">
@@ -30,7 +30,11 @@ const UsageChart = () => {
             <XAxis dataKey="name" stroke="#aaa" />
             <YAxis stroke="#aaa" />
             <Tooltip />
-            <Bar dataKey="count" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+            <Bar
+              dataKey="count"
+              fill="#3B82F6"
+              radius={[8, 8, 0, 0]}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

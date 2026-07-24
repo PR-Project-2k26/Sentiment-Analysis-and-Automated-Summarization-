@@ -1,12 +1,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from routes.history import history
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 import os
 
 from config.db import connect_db
+
 from routes.auth import auth
+from routes.history import history
+from routes.dashboard import dashboard
 
 # Load environment variables
 load_dotenv()
@@ -27,9 +29,12 @@ jwt = JWTManager(app)
 # Connect to MongoDB
 connect_db()
 
+# -------------------------
 # Register Blueprints
+# -------------------------
 app.register_blueprint(auth, url_prefix="/api/auth")
 app.register_blueprint(history, url_prefix="/api/history")
+app.register_blueprint(dashboard, url_prefix="/api/dashboard")
 
 
 # -------------------------
