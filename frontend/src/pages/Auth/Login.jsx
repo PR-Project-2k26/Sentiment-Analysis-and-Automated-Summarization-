@@ -8,8 +8,6 @@ import AuthCard from "../../components/Authentication/AuthCard";
 import AuthHeader from "../../components/Authentication/AuthHeader";
 import AuthInput from "../../components/Authentication/AuthInput";
 import PasswordInput from "../../components/Authentication/PasswordInput";
-import Divider from "../../components/Authentication/Divider";
-import SocialButtons from "../../components/Authentication/SocialButtons";
 import AuthFooter from "../../components/Authentication/AuthFooter";
 
 const Login = () => {
@@ -41,10 +39,8 @@ const Login = () => {
 
       const response = await loginUser(formData);
 
-      // Save JWT Token
       localStorage.setItem("token", response.data.token);
 
-      // Save User Data
       if (response.data.user) {
         localStorage.setItem(
           "user",
@@ -56,16 +52,17 @@ const Login = () => {
       setMessage("Login successful!");
 
       setTimeout(() => {
-      const redirect = sessionStorage.getItem("redirectAfterLogin");
+        const redirect = sessionStorage.getItem(
+          "redirectAfterLogin"
+        );
 
-      if (redirect) {
-        sessionStorage.removeItem("redirectAfterLogin");
-        navigate(redirect);
-      } else {
-        navigate("/dashboard");
-      }
-    }, 1000);
-
+        if (redirect) {
+          sessionStorage.removeItem("redirectAfterLogin");
+          navigate(redirect);
+        } else {
+          navigate("/dashboard");
+        }
+      }, 1000);
     } catch (error) {
       setIsError(true);
 
@@ -81,15 +78,16 @@ const Login = () => {
   return (
     <AuthLayout>
       <AuthCard>
-        <form onSubmit={handleLogin}>
-          <AuthHeader
-            title="Welcome Back 👋"
-            subtitle="Sign in to continue using SummarAI."
-          />
+
+        <AuthHeader
+          subtitle="Welcome back! Enter your credentials to access your account."
+        />
+
+        <form onSubmit={handleLogin} className="space-y-5">
 
           {message && (
             <div
-              className={`mb-4 rounded-lg border p-3 text-sm ${
+              className={`rounded-lg border p-3 text-sm ${
                 isError
                   ? "border-red-500 bg-red-500/10 text-red-400"
                   : "border-green-500 bg-green-500/10 text-green-400"
@@ -100,12 +98,12 @@ const Login = () => {
           )}
 
           <AuthInput
-            label="Email"
+            label="Email Address"
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Enter your email"
+            placeholder="john@example.com"
           />
 
           <PasswordInput
@@ -114,34 +112,37 @@ const Login = () => {
             onChange={handleChange}
           />
 
-          <div className="mb-6 flex items-center justify-between">
-            <label className="flex items-center gap-2 text-sm text-gray-400">
-              <input type="checkbox" />
-              Remember Me
+          <div className="flex items-center justify-between text-sm">
+
+            <label className="flex items-center gap-2 text-gray-400">
+              <input
+                type="checkbox"
+                className="rounded border-white/20 bg-transparent"
+              />
+              Remember me
             </label>
 
             <Link
               to="/forgot-password"
-              className="text-sm text-blue-400 hover:text-blue-300"
+              className="text-blue-500 hover:text-blue-400"
             >
-              Forgot Password?
+              Forgot password?
             </Link>
+
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-2 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? "Signing In..." : "Login"}
+            {loading ? "Signing In..." : "Sign In"}
           </button>
+
         </form>
 
-        <Divider />
-
-        <SocialButtons />
-
         <AuthFooter />
+
       </AuthCard>
     </AuthLayout>
   );
