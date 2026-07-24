@@ -5,7 +5,6 @@ import DashboardLayout from "../../components/Layout/DashboardLayout";
 import Welcome from "../../components/Dashboard/Welcome";
 import StatsGrid from "../../components/Dashboard/StatsGrid";
 import ModuleGrid from "../../components/Dashboard/ModuleGrid";
-import UsageChart from "../../components/Dashboard/UsageChart";
 import RecentActivity from "../../components/Dashboard/RecentActivity";
 
 import { getDashboardStats } from "../../services/dashboardService";
@@ -50,8 +49,6 @@ const Dashboard = () => {
         <StatsGrid stats={dashboardData} />
 
         <ModuleGrid />
-
-        <UsageChart stats={dashboardData} />
 
         <RecentActivity
           activities={dashboardData?.recentActivity || []}
