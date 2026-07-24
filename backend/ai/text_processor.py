@@ -133,7 +133,13 @@ def get_text_stats(original_text, summary_text):
 
     orig_words = word_count(original_text)
     summ_words = word_count(summary_text)
-    compression = round((1 - summ_words / orig_words) * 100, 1) if orig_words else 0.0
+    if orig_words:
+        compression = max(
+            0,  
+            round((1 - summ_words / orig_words) * 100, 1)
+        )
+    else:
+        compression = 0.0
 
     return {
         "original_words": orig_words,
