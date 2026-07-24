@@ -14,13 +14,6 @@ const Hero = () => {
     }
   };
 
-  const handleGitHub = () => {
-    window.open(
-      "https://github.com/PR-Project-2k26/Sentiment-Analysis-and-Automated-Summarization-",
-      "_blank"
-    );
-  };
-
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#09090B] px-6 pt-20">
 
@@ -49,7 +42,7 @@ const Hero = () => {
           recruiters and professionals.
         </p>
 
-        <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
+        <div className="mt-12 flex justify-center">
 
           <button
             onClick={handleGetStarted}
@@ -57,13 +50,6 @@ const Hero = () => {
           >
             {token ? "Go to Dashboard" : "Get Started"}
             <ArrowRight size={20} />
-          </button>
-
-          <button
-            onClick={handleGitHub}
-            className="flex items-center justify-center gap-2 rounded-xl border border-gray-700 px-8 py-4 text-white transition hover:bg-gray-800"
-          >
-            View GitHub
           </button>
 
         </div>
