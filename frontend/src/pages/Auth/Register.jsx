@@ -8,8 +8,6 @@ import AuthCard from "../../components/Authentication/AuthCard";
 import AuthHeader from "../../components/Authentication/AuthHeader";
 import AuthInput from "../../components/Authentication/AuthInput";
 import PasswordInput from "../../components/Authentication/PasswordInput";
-import Divider from "../../components/Authentication/Divider";
-import SocialButtons from "../../components/Authentication/SocialButtons";
 
 const Register = () => {
   const navigate = useNavigate();
