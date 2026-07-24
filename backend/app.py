@@ -11,6 +11,8 @@ from routes.history import history
 from routes.dashboard import dashboard
 from routes.resume import resume
 from routes.video import video
+from routes.audio import audio
+from routes.text import text
 
 # Load environment variables
 load_dotenv()
@@ -39,6 +41,8 @@ app.register_blueprint(history, url_prefix="/api/history")
 app.register_blueprint(dashboard, url_prefix="/api/dashboard")
 app.register_blueprint(resume, url_prefix="/api/resume")
 app.register_blueprint(video, url_prefix="/api/video")
+app.register_blueprint(audio, url_prefix="/api/audio")
+app.register_blueprint(text, url_prefix="/api/text")
 
 
 # -------------------------
