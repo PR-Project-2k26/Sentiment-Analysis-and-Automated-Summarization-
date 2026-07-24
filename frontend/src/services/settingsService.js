@@ -1,5 +1,5 @@
 import api from "./api";
 
-export const changePassword = (data) => {
-  return api.put("/auth/change-password", data);
+export const changePassword = async (passwordData) => {
+  return await api.put("/auth/change-password", passwordData);
 };
