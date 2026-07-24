@@ -139,3 +139,44 @@ def profile():
             "created_at": str(user["created_at"])
         }
     }), 200
+
+# ----------------------------
+# Update Profile
+# ----------------------------
+@auth.route("/profile", methods=["PUT"])
+@jwt_required()
+def update_profile():
+
+    data = request.get_json()
+
+    name = data.get("name")
+
+    if not name:
+        return jsonify({
+            "success": False,
+            "message": "Name is required."
+        }), 400
+
+    user_id = get_jwt_identity()
+
+    users = database.db["users"]
+
+    result = users.update_one(
+        {"_id": ObjectId(user_id)},
+        {
+            "$set": {
+                "name": name
+            }
+        }
+    )
+
+    if result.modified_count == 0:
+        return jsonify({
+            "success": False,
+            "message": "No changes made."
+        }), 400
+
+    return jsonify({
+        "success": True,
+        "message": "Profile updated successfully."
+    }), 200
