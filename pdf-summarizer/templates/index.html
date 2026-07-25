@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>PDF Summarizer</title>
 </head>
+
 <body>
 
     <h2>PDF Summarizer</h2>
 
     <input type="file" id="fileInput">
-    <br><br>
-
-    <button onclick="uploadFile()">Summarize</button>
 
     <br><br>
 
-    <textarea id="output" rows="15" cols="60" placeholder="Summary will appear here..."></textarea>
+    <button onclick="uploadFile()">
+        Summarize
+    </button>
+
+    <br><br>
+
+    <textarea
+        id="output"
+        rows="18"
+        cols="80"
+        placeholder="Summary will appear here..."></textarea>
 
     <script>
+
         async function uploadFile() {
+
             const fileInput = document.getElementById("fileInput");
             const output = document.getElementById("output");
 
             if (!fileInput.files.length) {
-                alert("Please select a PDF file");
+                alert("Please select a PDF file.");
                 return;
             }
 
             const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
 
-            output.value = "Processing...";
+            formData.append(
+                "file",
+                fileInput.files[0]
+            );
 
-            const response = await fetch("/summarize/", {
-                method: "POST",
-                body: formData
-            });
+            output.value = "Generating summary...";
 
-            const data = await response.json();
-            output.value = data.summary;
+            try {
+
+                const response = await fetch(
+                    "/summarize/",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    output.value = data.detail;
+                    return;
+                }
+
+                output.value =
+                    "File: " + data.filename +
+                    "\n\nCharacters: " + data.characters +
+                    "\n\nSummary:\n\n" +
+                    data.summary;
+
+            }
+
+            catch (error) {
+
+                output.value =
+                    "Something went wrong.\n\n" +
+                    error;
+
+            }
+
         }
+
     </script>
 
 </body>
+
 </html>
