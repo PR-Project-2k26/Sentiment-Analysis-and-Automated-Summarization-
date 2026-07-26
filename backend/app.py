@@ -13,6 +13,7 @@ from routes.resume import resume
 from routes.video import video
 from routes.audio import audio
 from routes.text import text
+from routes.pdf import pdf
 
 # Flask Mail
 from services.mail import mail
@@ -95,6 +96,7 @@ app.register_blueprint(resume, url_prefix="/api/resume")
 app.register_blueprint(video, url_prefix="/api/video")
 app.register_blueprint(audio, url_prefix="/api/audio")
 app.register_blueprint(text, url_prefix="/api/text")
+app.register_blueprint(pdf, url_prefix="/api/pdf")
 
 # -------------------------
 # Home Route
