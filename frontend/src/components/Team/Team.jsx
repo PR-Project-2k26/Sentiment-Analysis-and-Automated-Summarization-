@@ -16,7 +16,7 @@ const teamMembers = [
     role: "Audio Summarizer Module",
   },
   {
-    name: "Sanidhya Digvijay Singh",
+    name: "Sanidhya Digvijay",
     role: "PDF Summarizer Module",
   },
 ];
