@@ -1,9 +1,18 @@
-from ai.model import model
+import os
+from groq import Groq
+
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 def speech_to_text(audio_path):
-    result = model.transcribe(
-        audio_path,
-        fp16=False
-    )
 
-    return result["text"]
+    with open(audio_path, "rb") as audio_file:
+
+        transcription = client.audio.transcriptions.create(
+            file=audio_file,
+            model="whisper-large-v3",
+            response_format="text"
+        )
+
+    return transcription
