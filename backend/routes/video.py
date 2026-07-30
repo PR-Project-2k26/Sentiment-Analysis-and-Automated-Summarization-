@@ -2,7 +2,6 @@ import os
 
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
-
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from ai.video_processor import process_video
@@ -11,8 +10,12 @@ from services.history_service import HistoryService
 video = Blueprint("video", __name__)
 
 UPLOAD_FOLDER = "uploads/videos"
+AUDIO_FOLDER = "uploads/audio"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(AUDIO_FOLDER, exist_ok=True)
+
+MAX_VIDEO_SIZE = 20 * 1024 * 1024  # 20 MB
 
 
 @video.route("/upload", methods=["POST"])
@@ -33,6 +36,13 @@ def upload_video():
             "message": "No file selected."
         }), 400
 
+    # Check file size
+    if request.content_length and request.content_length > MAX_VIDEO_SIZE:
+        return jsonify({
+            "success": False,
+            "message": "Video size must be less than 20 MB."
+        }), 413
+
     filename = secure_filename(file.filename)
 
     video_path = os.path.join(
@@ -40,10 +50,17 @@ def upload_video():
         filename
     )
 
-    file.save(video_path)
+    audio_path = os.path.join(
+        AUDIO_FOLDER,
+        "audio.wav"
+    )
 
     try:
 
+        # Save uploaded video
+        file.save(video_path)
+
+        # Process video
         result = process_video(video_path)
 
         transcript = result["transcript"]
@@ -73,3 +90,13 @@ def upload_video():
             "success": False,
             "message": str(e)
         }), 500
+
+    finally:
+
+        # Delete uploaded video
+        if os.path.exists(video_path):
+            os.remove(video_path)
+
+        # Delete extracted audio
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
