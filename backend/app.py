@@ -53,6 +53,7 @@ app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 # -------------------------
 jwt = JWTManager(app)
 
+
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     print("INVALID TOKEN:", error)
@@ -78,6 +79,7 @@ def expired_token_callback(jwt_header, jwt_payload):
         "success": False,
         "message": "Token expired"
     }), 401
+
 
 mail.init_app(app)
 
@@ -118,7 +120,7 @@ def health():
 
     return jsonify({
         "success": True,
-        "database": "connected" if database.db else "disconnected"
+        "database": "connected" if database.db is not None else "disconnected"
     })
 
 
