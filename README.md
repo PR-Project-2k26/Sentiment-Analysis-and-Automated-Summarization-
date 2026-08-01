@@ -1,105 +1,230 @@
-# Sentiment Analysis & Automated Summarization Platform
+# SummarAI - AI Powered Sentiment Analysis & Automated Summarization Platform
 
-An AI-powered web application that combines multiple Natural Language Processing (NLP) and AI modules into a single platform. Users can analyze text sentiment, summarize text, audio, and video content, and evaluate resumes through one unified interface.
+An AI-powered full-stack web application that combines multiple Natural Language Processing (NLP) and Artificial Intelligence modules into one platform. Users can summarize text, PDFs, audio, and video files, analyze resumes, perform sentiment analysis, and securely manage their processing history.
 
 ---
 
-## Features
+## Live Demo
 
-### Resume Analyzer
-- ATS-friendly resume analysis
-- Skill extraction
-- Resume feedback and improvement suggestions
+### Frontend
+https://sentiment-analysis-and-automated-su-six.vercel.app/
 
-### Text Summarizer
-- Summarize long articles and documents
-- Preserve key information
-- Fast AI-generated summaries
+### Backend API
+https://summarai-backend-drw7.onrender.com
 
-### Audio Summarizer
+---
+
+# Features
+
+## User Authentication
+
+- User Registration
+- Secure Login
+- JWT Authentication
+- Password Reset via Email
+- Protected Routes
+
+---
+
+## Text Summarizer
+
+- Summarize long text instantly
+- AI-generated concise summaries
+- Fast processing using Groq LLM
+
+---
+
+## PDF Summarizer
+
+- Upload PDF documents
+- Extract document text
+- Generate intelligent summaries
+- Preserve important information
+
+---
+
+## Audio Summarizer
+
 - Upload audio files
-- Speech-to-text conversion
+- Speech-to-Text using OpenAI Whisper
 - AI-generated summaries
+- Supports multiple audio formats
 
-### Video Summarizer
+---
+
+## Video Summarizer
+
 - Upload video files
-- Automatic audio extraction
-- Speech transcription using OpenAI Whisper
-- AI-powered summaries using Groq LLM
+- Automatic audio extraction using MoviePy
+- Speech Transcription using OpenAI Whisper
+- AI-generated summaries using Groq LLM
 
-### Sentiment Analysis
-- Classifies text as Positive, Neutral, or Negative
-- Displays prediction confidence
-- Useful for reviews, feedback, and social media analysis
+---
+
+## Resume Analyzer
+
+- ATS-Friendly Resume Analysis
+- Skill Extraction
+- Resume Score
+- Personalized Improvement Suggestions
+
+---
+
+## Sentiment Analysis
+
+- Detect Positive, Neutral, and Negative sentiments
+- Confidence Prediction
+- Useful for:
+  - Customer Reviews
+  - Social Media Posts
+  - Feedback Analysis
+
+---
+
+## Dashboard
+
+- Total Summaries
+- Module-wise Statistics
+- User Activity Overview
+- History Analytics
+
+---
+
+## History Management
+
+- Stores every processed summary
+- View previous summaries
+- Resume processing history
+- Audio & Video history
+- PDF history
 
 ---
 
 # Tech Stack
 
 ## Frontend
+
+- React.js
+- Vite
+- JavaScript
 - HTML5
 - CSS3
-- JavaScript
+- Axios
+- React Router DOM
+
+---
 
 ## Backend
-- Python
-- Flask (Integration Layer)
 
-## AI & Machine Learning
+- Python
+- Flask
+- Flask JWT Extended
+- Flask Mail
+- Flask CORS
+
+---
+
+## Database
+
+- MongoDB Atlas
+- PyMongo
+
+---
+
+## Artificial Intelligence
+
 - OpenAI Whisper
 - Groq LLM
 - Hugging Face Transformers
-- Natural Language Processing (NLP)
+- NLP
+
+---
 
 ## Audio & Video Processing
+
 - MoviePy
 - FFmpeg
+- OpenAI Whisper
+
+---
+
+## Deployment
+
+### Frontend
+
+- Vercel
+
+### Backend
+
+- Render
+
+### Database
+
+- MongoDB Atlas
+
+---
 
 ## Development Tools
+
 - Git
 - GitHub
 - VS Code
+- Postman
 
 ---
 
 # Project Structure
 
-```text
+```
 Sentiment-Analysis-and-Automated-Summarization
 │
-├── frontend/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   └── assets/
-│
 ├── backend/
+│   ├── ai/
+│   ├── config/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── uploads/
+│   ├── app.py
+│   └── requirements.txt
 │
-├── audio-summarizer/
-├── text-summarizer/
-├── video-summarizer/
-├── resume-builder/
-├── sentiment-analysis/
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── assets/
+│   │   └── App.jsx
+│   │
+│   ├── package.json
+│   └── vite.config.js
 │
-├── requirements.txt
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
 # Installation
 
-## Clone the Repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/PR-Project-2k26/Sentiment-Analysis-and-Automated-Summarization-.git
 ```
 
-## Move to Project Directory
+---
+
+## 2. Move into Project
 
 ```bash
 cd Sentiment-Analysis-and-Automated-Summarization-
 ```
+
+---
+
+# Backend Setup
 
 ## Create Virtual Environment
 
@@ -119,50 +244,184 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
+---
+
 ## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Configure Environment Variables
+---
 
-Create a `.env` file and add your API keys.
+## Configure Backend Environment Variables
+
+Create a `.env` file inside the backend folder.
 
 ```env
-GROQ_API_KEY=your_api_key
+MONGO_URI=your_mongodb_connection_string
+
+JWT_SECRET_KEY=your_secret_key
+
+GROQ_API_KEY=your_groq_api_key
+
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email
+MAIL_PASSWORD=your_app_password
+MAIL_USE_TLS=True
 ```
 
-## Run the Backend
+---
+
+## Run Backend
 
 ```bash
 python app.py
 ```
 
+Backend runs at
+
+```
+http://localhost:5000
+```
+
+---
+
+# Frontend Setup
+
+Move into frontend
+
+```bash
+cd frontend
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create `.env`
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Run Frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs at
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🚀 Deployment
+
+## Frontend
+
+Deploy using **Vercel**
+
+## Backend
+
+Deploy using **Render**
+
+## Database
+
+MongoDB Atlas
+
+---
+
+# API Modules
+
+- Authentication
+- Dashboard
+- History
+- Resume Analyzer
+- Text Summarizer
+- PDF Summarizer
+- Audio Summarizer
+- Video Summarizer
+- Sentiment Analysis
+
 ---
 
 # Future Improvements
 
-- User Authentication
-- Dashboard for previous summaries
-- Download summaries as PDF
-- Multiple language support
 - AI Chat Assistant
-- Dark/Light Theme
-- History Management
-- Cloud Deployment
+- Multi-language Support
+- Download Summary as PDF
+- OCR Support
+- Meeting Summarizer
+- YouTube URL Summarizer
+- Real-time Speech Summarization
+- Admin Dashboard
+- User Profile Management
+- Theme Customization
 
 ---
 
-# Team Members
+# 👨‍💻 Team Members
 
-| Member | Module |
-|---------|--------|
-| Payal Choudhary | Resume Analyzer |
-| Sparsh | Text Summarizer |
-| Yash | Audio Summarizer |
-| Bhavya Vaish | Video Summarizer |
-| Team | Website Integration & Sentiment Analysis |
-This project is developed for education---
+| Member | Responsibility |
+|---------|----------------|
+| **Bhavya Vaish** | Video Summarizer, Full Stack Integration, Deployment, Backend Development |
+| **Payal Choudhary** | Resume Analyzer |
+| **Sparsh** | Text Summarizer |
+| **Yash** | Audio Summarizer |
+| **Entire Team** | Sentiment Analysis, Testing & Integration |
 
-⭐ If you found this project useful, consider giving it a **Star** on GitHub!
+---
+
+# Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a new branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature-name
+```
+
+5. Create a Pull Request
+
+---
+
+# License
+
+This project is developed for educational and learning purposes.
+
+---
+
+# ⭐Support
+
+If you found this project useful,
+
+⭐ Star this repository
+
+Fork it
+
+Contribute
+
+---
+
+## 💙 Built with AI, Python, Flask, React, MongoDB Atlas, Groq LLM, OpenAI Whisper & Vercel + Render
