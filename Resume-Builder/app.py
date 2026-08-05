@@ -1,584 +1,669 @@
-import streamlit as st
 import os
+import streamlit as st
 import pandas as pd
+
+from streamlit_echarts import st_echarts
+
+# -----------------------------
+# Backend Modules
+# -----------------------------
+from modules.suggestions import generate_suggestions
+from modules.database import create_tables
+from modules.parser import extract_resume_text
+from modules.metrics import calculate_metrics
+from modules.sections import detect_sections
+from modules.ats import calculate_ats
+from modules.skills import analyze_job_match
+from modules.content_quality import evaluate_content_quality
+from modules.score import calculate_resume_score
+from modules.suggestions import generate_suggestions
+from modules.ai_analyzer import analyze_resume_ai
+from modules.career_roadmap import generate_career_roadmap
 
 from modules.history import (
     save_analysis,
     get_analysis_history,
     get_dashboard_stats
 )
-from streamlit_echarts import st_echarts
-from modules.database import create_tables
-from modules.parser import extract_resume_text
-from modules.ats import calculate_ats
-from modules.skills import (
-    extract_skills,
-    calculate_skill_match
-)
-from modules.suggestions import generate_suggestions
-from modules.metrics import calculate_metrics
-from modules.sections import detect_sections
-from modules.score import calculate_resume_score
-from modules.content_quality import evaluate_content_quality
-from modules.ai_analyzer import analyze_resume_ai
-from modules.career_roadmap import generate_career_roadmap
 
-# Create database tables
+# ---------------------------------
+# Database
+# ---------------------------------
+
 create_tables()
 
-# -------------------------------
-# PAGE CONFIG
-# -------------------------------
+# ---------------------------------
+# Page Configuration
+# ---------------------------------
 
 st.set_page_config(
-    page_title="AI Resume Analyzer",
+    page_title="AI Resume Analyzer Pro",
     page_icon="📄",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# -------------------------------
-# SIDEBAR
-# -------------------------------
+st.markdown("""
+<style>
+
+.block-container{
+    padding-top:1.5rem;
+    padding-bottom:2rem;
+}
+
+.stMetric{
+    border-radius:15px;
+}
+
+.hero{
+
+padding:30px;
+
+border-radius:18px;
+
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+color:white;
+
+margin-bottom:20px;
+
+}
+
+.small-card{
+
+padding:18px;
+
+border-radius:15px;
+
+background:#111827;
+
+border:1px solid #2d3748;
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =====================================
+# Sidebar
+# =====================================
 
 with st.sidebar:
 
-    if "page" not in st.session_state:
-        st.session_state.page = "🏠 Dashboard"
+    st.title("📄 AI Resume Analyzer")
+
+    st.markdown("---")
 
     page = st.radio(
         "Navigation",
         [
             "🏠 Dashboard",
-            "📄 Resume Analysis",
             "📈 Progress Tracker"
-        ],
-        key="page"
+        ]
     )
-# -------------------------------
-# DASHBOARD
-# -------------------------------
+
+    st.markdown("---")
+
+    st.markdown("### Features")
+
+    st.success("✓ ATS Compatibility")
+
+    st.success("✓ Skill Gap Analysis")
+
+    st.success("✓ AI Resume Review")
+
+    st.success("✓ Career Roadmap")
+
+    st.success("✓ Progress Tracker")
+
+
+# =====================================
+# Dashboard
+# =====================================
 
 if page == "🏠 Dashboard":
 
     st.markdown(
         """
-        <div style="padding:40px;
-                    border-radius:20px;
-                    background:linear-gradient(135deg,#4F46E5,#7C3AED);
-                    color:white;">
+        <div class="hero">
 
-        <h1 style="margin-bottom:10px;">
-        🚀 AI Resume Analyzer Pro
-        </h1>
+        <h1>🚀 AI Resume Analyzer Pro</h1>
 
-        <h4 style="font-weight:400;">
-        Analyze your resume with AI, improve ATS score,
-        identify skill gaps and build a personalized career roadmap.
-        </h4>
+        <p style="font-size:18px;">
+        Upload your resume, compare it with any Job Description,
+        discover missing skills, improve ATS score,
+        and receive AI-powered career guidance.
+        </p>
 
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
-
-    st.write("")
 
     stats = get_dashboard_stats()
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-
         st.metric(
-            "📄 Resume Analyses",
+            "📄 Total Analyses",
             stats["total"]
         )
 
     with col2:
-
         st.metric(
-            "🏆 Best Score",
-            f'{stats["best"]}/100'
+            "🏆 Highest Score",
+            f"{stats['best']}/100"
         )
 
     with col3:
-
         st.metric(
             "📈 Latest Score",
-            f'{stats["latest"]}/100'
+            f"{stats['latest']}/100"
         )
 
-    st.write("")
-    st.subheader("✨ Features")
+        st.write("")
 
-    col1, col2 = st.columns(2)
+    st.subheader("✨ What This Analyzer Does")
 
-    with col1:
+    left, right = st.columns(2)
+
+    with left:
 
         with st.container(border=True):
 
-            st.markdown("## 🎯 ATS Analysis")
+            st.markdown("### 🎯 ATS Compatibility")
 
-            st.write(
-                "Checks ATS compatibility, formatting, sections and resume quality."
+            st.caption(
+                "Evaluate formatting, resume structure and ATS friendliness."
             )
+
+        with st.container(border=True):
+
+            st.markdown("### 🤖 AI Resume Review")
+
+            st.caption(
+                "AI checks grammar, readability, tone and resume quality."
+            )
+
+    with right:
+
+        with st.container(border=True):
+
+            st.markdown("### 🧠 Skill Gap Analysis")
+
+            st.caption(
+                "Compare your resume with the Job Description."
+            )
+
+        with st.container(border=True):
+
+            st.markdown("### 🛣 Career Roadmap")
+
+            st.caption(
+                "Get a personalized roadmap to improve missing skills."
+            )
+            st.write("")
+    st.divider()
+
+    st.subheader("📄 Resume Analysis")
+
+    left, right = st.columns([1, 1.5])
+
+    # -----------------------------
+    # Resume Upload
+    # -----------------------------
+    with left:
+
+        st.markdown("### Upload Resume")
+
+        uploaded_resume = st.file_uploader(
+            "Choose a PDF Resume",
+            type=["pdf"],
+            help="Upload your resume in PDF format."
+        )
+
+        if uploaded_resume:
+            st.success(f"✅ {uploaded_resume.name}")
+
+    # -----------------------------
+    # Job Description
+    # -----------------------------
+    with right:
+
+        st.markdown("### Job Description")
+
+        job_description = st.text_area(
+            "Paste the Job Description",
+            height=280,
+            placeholder="Paste the complete job description here..."
+        )
+
+        st.write("")
+
+    col1, col2, col3 = st.columns([1, 2, 1])
 
     with col2:
 
-        with st.container(border=True):
+        analyze = st.button(
+            "🚀 Analyze Resume",
+            use_container_width=True,
+            type="primary"
+        )
 
-            st.markdown("## 🧠 Skill Gap Analysis")
+        if analyze:
 
-            st.write(
-                "Compares your resume against the job description and finds missing skills."
-            )
+            if uploaded_resume is None:
 
-    col3, col4 = st.columns(2)
+                st.error("Please upload your resume.")
 
-    with col3:
+            elif job_description.strip() == "":
 
-        with st.container(border=True):
-
-            st.markdown("## 🤖 AI Resume Review")
-
-            st.write(
-                "AI evaluates grammar, writing quality and professional tone."
-            )
-
-    with col4:
-
-        with st.container(border=True):
-
-            st.markdown("## 🛣 Career Roadmap")
-
-            st.write(
-                "Generates a personalized learning roadmap based on your skill gaps."
-            )
-# -------------------------------
-# RESUME ANALYSIS
-# -------------------------------
-
-elif page == "📄 Resume Analysis":
-
-    st.header("📄 Resume Analysis")
-
-    uploaded_resume = st.file_uploader(
-        "Upload Resume (PDF)",
-        type=["pdf"]
-    )
-
-
-    job_description = st.text_area(
-        "Paste Job Description",
-        height=300,
-        placeholder="Paste the complete Job Description here..."
-    )
-
-    if st.button("🚀 Analyze Resume"):
-
-        if uploaded_resume is None:
-            st.error("Please upload your resume.")
-
-        elif job_description.strip() == "":
-            st.error("Please paste the Job Description.")
-
-        else:
-
-            upload_path = os.path.join(
-                "uploads",
-                uploaded_resume.name
-            )
-
-            with open(upload_path, "wb") as f:
-                f.write(uploaded_resume.getbuffer())
-
-            st.success("Resume uploaded successfully!")
-
-            resume_text = extract_resume_text(upload_path)
-
-            resume_skills = extract_skills(resume_text)
-
-            jd_skills = extract_skills(job_description)
-
-            metrics = calculate_metrics(resume_text)
-
-            sections = detect_sections(resume_text)
-
-            content_quality = evaluate_content_quality(
-                resume_text,
-                metrics
-            )
-
-            ats_score, ats_report = calculate_ats(
-                metrics,
-                sections
-            )
-
-            skill_score, matched, missing = calculate_skill_match(
-                resume_skills,
-                jd_skills
-            )
-
-            resume_score, breakdown = calculate_resume_score(
-                ats_score,
-                skill_score,
-                metrics,
-                sections
-            )
-
-            from modules.history import save_analysis
-
-            save_analysis(
-
-                uploaded_resume.name,
-
-                resume_score,
-
-                ats_score,
-
-                skill_score,
-
-                breakdown["Content Quality"],
-
-                breakdown["Resume Structure"],
-
-                matched,
-
-                missing
-            )
-
-            suggestions = generate_suggestions(
-                resume_text,
-                missing
-            )
-
-
-            st.success("✅ Analysis Completed Successfully!")
-
-            # -----------------------------
-            # Grade
-            # -----------------------------
-
-            if resume_score >= 90:
-                grade = "Excellent"
-                color = "#2ecc71"
-
-            elif resume_score >= 75:
-                grade = "Good"
-                color = "#3498db"
-
-            elif resume_score >= 60:
-                grade = "Average"
-                color = "#f39c12"
+                st.error("Please paste the Job Description.")
 
             else:
-                grade = "Needs Improvement"
-                color = "#e74c3c"
 
-            # -----------------------------
-            # Layout
-            # -----------------------------
+                os.makedirs("uploads", exist_ok=True)
 
-            left, center, right = st.columns([1.2, 2, 1.2])
-
-            # -----------------------------
-            # LEFT
-            # -----------------------------
-
-            with left:
-
-                st.metric(
-                    "ATS",
-                    f"{ats_score}/20"
+                upload_path = os.path.join(
+                    "uploads",
+                    uploaded_resume.name
                 )
 
-                st.metric(
-                    "Content",
-                    f"{breakdown['Content Quality']}/20"
-                )
+                with open(upload_path, "wb") as f:
+                    f.write(uploaded_resume.getbuffer())
 
-            # -----------------------------
-            # CENTER
-            # -----------------------------
+                with st.spinner("Analyzing your resume..."):
 
-            with center:
+                    resume_text = extract_resume_text(upload_path)
 
-                option = {
-                    "series": [
-                        {
-                            "type": "gauge",
-                            "startAngle": 90,
-                            "endAngle": -270,
-                            "pointer": {
-                                "show": False
-                            },
-                            "progress": {
-                                "show": True,
-                                "overlap": False,
-                                "roundCap": True,
-                                "clip": False,
-                                "itemStyle": {
-                                    "color": color
-                                }
-                            },
-                            "axisLine": {
-                                "lineStyle": {
-                                    "width": 22
-                                }
-                            },
-                            "splitLine": {
-                                "show": False
-                            },
-                            "axisTick": {
-                                "show": False
-                            },
-                            "axisLabel": {
-                                "show": False
-                            },
-                            "detail": {
-                                "fontSize": 42,
-                                "offsetCenter": [0, "0%"],
-                                "formatter": "{value}/100"
-                            },
-                            "title": {
-                                "offsetCenter": [0, "78%"],
-                                "fontSize": 22
-                            },
-                            "data": [
-                                {
-                                    "value": resume_score,
-                                    "name": grade
-                                }
-                            ]
-                        }
-                    ]
-                }
+                    metrics = calculate_metrics(resume_text)
 
-                st_echarts(
-                    options=option,
-                    height="420px"
-                )
+                    sections = detect_sections(resume_text)
 
-            # -----------------------------
-            # RIGHT
-            # -----------------------------
+                    content_quality = evaluate_content_quality(
+                        resume_text,
+                        metrics
+                    )
 
-            with right:
+                    ats_score, ats_report = calculate_ats(
+                        metrics,
+                        sections
+                    )
 
-                st.metric(
-                    "Job Match",
-                    f"{skill_score}/40"
-                )
+                    job_match = analyze_job_match(
+                        resume_text,
+                        job_description
+                    )
 
-                st.metric(
-                    "Structure",
-                    f"{breakdown['Resume Structure']}/20"
-                )
+                    resume_score, breakdown = calculate_resume_score(
+                        ats_score,
+                        job_match,
+                        metrics,
+                        sections,
+                        content_quality
+                    )
+                    matched = (
+                        job_match["technical"]["matched"]
+                        + job_match["frameworks"]["matched"]
+                    )
 
-            st.subheader("📊 Score Breakdown")
+                    missing = (
+                        job_match["technical"]["missing"]
+                        + job_match["frameworks"]["missing"]
+                    )
+                    suggestions = generate_suggestions(
 
-            limits = {
-                "ATS Compatibility": 20,
-                "Skill Match": 40,
-                "Content Quality": 20,
-                "Resume Structure": 20
-            }
+                        metrics,
 
-            for key, value in breakdown.items():
+                        sections,
 
-                st.write(f"**{key}**")
+                        missing,
 
-                st.progress(value / limits[key])
+                        job_match,
 
-                st.caption(f"{value}/{limits[key]}")
-            
-            st.divider()
-            st.subheader("🎯 ATS Compatibility Report")
+                        ats_report,
 
-            col1, col2 = st.columns(2)
+                        content_quality
 
-            with col1:
+                    )
 
-                st.markdown("### ✅ Strengths")
+                                    # ============================================
+                # RESULT HEADER
+                # ============================================
 
-                for item in ats_report["strengths"]:
-                    st.success(item)
+                st.write("")
+                st.divider()
+                st.header("📊 Resume Analysis Results")
 
-            with col2:
+                # -----------------------------
+                # Verdict
+                # -----------------------------
 
-                st.markdown("### ⚠ Improvements")
+                if resume_score >= 90:
+                    verdict = "🟢 Excellent Resume"
+                    color = "#22c55e"
 
-                for item in ats_report["improvements"]:
-                    st.warning(item)
+                elif resume_score >= 75:
+                    verdict = "🔵 Good Resume"
+                    color = "#2563eb"
 
-            
-            st.subheader("🛠 Skills Analysis")
+                elif resume_score >= 60:
+                    verdict = "🟡 Average Resume"
+                    color = "#f59e0b"
 
-            col1, col2 = st.columns(2)
-
-            with col1:
-
-                st.markdown("### ✅ Matched Skills")
-
-                if matched:
-                    for skill in sorted(matched):
-                        st.success(skill)
                 else:
-                    st.info("No matched skills found.")
+                    verdict = "🔴 Needs Improvement"
+                    color = "#ef4444"
 
-            with col2:
-
-                st.markdown("### ❌ Missing Skills")
-
-                if missing:
-                    for skill in sorted(missing):
-                        st.error(skill)
-                else:
-                    st.success("No missing skills 🎉")
-
-            st.subheader("💡 Resume Suggestions")
-
-            for suggestion in suggestions:
-                st.write(f"• {suggestion}")
-
-            with st.expander("View Extracted Resume Text"):
-                st.text_area(
-                    "Resume Text",
-                    resume_text,
-                    height=300
-                )
-                st.subheader("📊 Resume Metrics")
-
-            col1, col2 = st.columns(2)
-
-            st.subheader("📊 Resume Metrics")
-
-            cols = st.columns(4)
-
-            metrics_to_show = [
-                ("Words", metrics["Words"]),
-                ("Lines", metrics["Lines"]),
-                ("Bullet Points", metrics["Bullet Points"]),
-                ("Characters", metrics["Characters"])
-            ]
-
-            for col, (name, value) in zip(cols, metrics_to_show):
-
-                with col:
-                    st.metric(name, value)
-            st.markdown("### 📇 Contact Information")
-
-            c1, c2, c3, c4 = st.columns(4)
-
-            with c1:
-                if metrics["Email"]:
-                    st.success("📧 Email")
-                else:
-                    st.error("📧 Email Missing")
-
-            with c2:
-                if metrics["Phone"]:
-                    st.success("📱 Phone")
-                else:
-                    st.error("📱 Phone Missing")
-
-            with c3:
-                if metrics["LinkedIn"]:
-                    st.success("💼 LinkedIn")
-                else:
-                    st.error("💼 LinkedIn Missing")
-
-            with c4:
-                if metrics["GitHub"]:
-                    st.success("🐙 GitHub")
-                else:
-                    st.error("🐙 GitHub Missing")
-
-
-            st.subheader("📝 Content Quality Analysis")
-
-            col1, col2 = st.columns(2)
-
-            items = list(content_quality.items())
-
-            for i, (metric, score) in enumerate(items):
-
-                if metric == "Overall":
-                    continue
-
-                with col1 if i % 2 == 0 else col2:
-
-                    st.write(f"**{metric}**")
-                    st.progress(score / 10)
-                    st.caption(f"{score}/10")
-
-            st.subheader("📑 Resume Sections")
-
-            cols = st.columns(2)
-
-            items = list(sections.items())
-
-            half = (len(items) + 1) // 2
-
-            with cols[0]:
-
-                for section, present in items[:half]:
-
-                    if present:
-                        st.success(f"✅ {section}")
-                    else:
-                        st.error(f"❌ {section}")
-
-            with cols[1]:
-
-                for section, present in items[half:]:
-
-                    if present:
-                        st.success(f"✅ {section}")
-                    else:
-                        st.error(f"❌ {section}")
-
-            with st.spinner("🤖 AI is reviewing your resume..."):
-                ai_review = analyze_resume_ai(
-                    resume_text,
-                    job_description
+                matched = (
+                    job_match["technical"]["matched"]
+                    + job_match["frameworks"]["matched"]
                 )
 
-            st.subheader("🤖 AI Resume Review")
+                missing = (
+                    job_match["technical"]["missing"]
+                    + job_match["frameworks"]["missing"]
+                )
 
-            with st.expander("View AI Review", expanded=True):
-                st.markdown(ai_review)
-
-            with st.spinner("🛣️ Generating Career Roadmap..."):
-                roadmap = generate_career_roadmap(
-                    resume_text,
-                    job_description,
+                save_analysis(
+                    uploaded_resume.name,
+                    resume_score,
+                    ats_score,
+                    job_match["score"],
+                    breakdown["Content Quality"],
+                    breakdown["Resume Structure"],
+                    matched,
                     missing
                 )
 
-            st.subheader("🛣️ AI Career Roadmap")
+                st.markdown(
+                    f"""
+                    <div style="
+                        background:{color};
+                        padding:25px;
+                        border-radius:18px;
+                        text-align:center;
+                        color:white;
+                        margin-bottom:20px;
+                    ">
 
-            with st.expander("View Career Roadmap", expanded=False):
-                st.markdown(roadmap)
-# -------------------------------
+                    <h1 style="margin:0;font-size:60px;">
+                    {resume_score}/100
+                    </h1>
+
+                    <h3>{verdict}</h3>
+
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+                col1, col2, col3, col4 = st.columns(4)
+
+                with col1:
+                    st.metric(
+                        "🎯 ATS Compatibility",
+                        f"{ats_score}/20"
+                    )
+
+                with col2:
+                    st.metric(
+                        "💼 Job Match",
+                        f"{job_match['score']}/40"
+                    )
+
+                with col3:
+                    st.metric(
+                        "📝 Content",
+                        f"{breakdown['Content Quality']}/20"
+                    )
+
+                with col4:
+                    st.metric(
+                        "📑 Structure",
+                        f"{breakdown['Resume Structure']}/20"
+                    )
+
+                st.write("")
+                st.subheader("📈 Score Breakdown")
+
+                score_data = [
+                    ("ATS Compatibility", breakdown["ATS Compatibility"], 20),
+                    ("Job Match", breakdown["Job Match"], 40),
+                    ("Content Quality", breakdown["Content Quality"], 20),
+                    ("Resume Structure", breakdown["Resume Structure"], 20),
+                ]
+
+                for title, score, total in score_data:
+
+                    st.markdown(f"**{title}**")
+
+                    st.progress(score / total)
+
+                    st.caption(f"{score}/{total}")
+
+                    st.write("")
+
+                    st.divider()
+
+                analysis_tab1, analysis_tab2, analysis_tab3, analysis_tab4, analysis_tab5, analysis_tab6 = st.tabs(
+                    [
+                        "🎯 ATS Compstibility Analysis",
+                        "📊 Resume Analysis of skills",
+                        "📝 Content Quality",
+                        "🤖 AI Review",
+                        "🛣 Career Roadmap",
+                        "📄 Resume Details",
+                    ]
+                )
+
+                with analysis_tab1:
+
+                    st.subheader("🎯 ATS Compatibility Report")
+
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+
+                        st.markdown("#### ✅ Strengths")
+
+                        for item in ats_report["strengths"]:
+                            st.success(item)
+
+                    with col2:
+
+                        st.markdown("#### ⚠ Improvements")
+
+                        for item in ats_report["improvements"]:
+                            st.warning(item)
+
+
+                with analysis_tab2:
+
+                    st.subheader("📊 Job Match Breakdown")
+
+                    c1, c2, c3, c4, c5 = st.columns(5)
+
+                    with c1:
+                        st.metric("Technical", f'{job_match["technical"]["score"]}/15')
+
+                    with c2:
+                        st.metric("Frameworks", f'{job_match["frameworks"]["score"]}/8')
+
+                    with c3:
+                        st.metric("Projects", f'{job_match["projects"]["score"]}/7')
+
+                    with c4:
+                        st.metric("Experience", f'{job_match["experience"]["score"]}/5')
+
+                    with c5:
+                        st.metric("Action", f'{job_match["action"]["score"]}/5')
+
+                    st.divider()
+
+                    st.subheader("🛠 Skills Analysis")
+
+                    left, right = st.columns(2)
+
+                    with left:
+
+                        st.markdown("### ✅ Matched Skills")
+
+                        if matched:
+                            for skill in sorted(matched):
+                                st.success(skill)
+                        else:
+                            st.info("No matched skills found.")
+
+                    with right:
+
+                        st.markdown("### ❌ Missing Skills")
+
+                        if missing:
+                            for skill in sorted(missing):
+                                st.error(skill)
+                        else:
+                            st.success("No missing skills 🎉")
+
+                    st.divider()
+
+                    # ==========================================
+                    # PROJECT EVALUATION
+                    # ==========================================
+
+                    st.subheader("📂 Project Evaluation")
+
+                    st.info(job_match["projects"]["reason"])
+
+                    st.write("")
+
+                    # ==========================================
+                    # EXPERIENCE EVALUATION
+                    # ==========================================
+
+                    st.subheader("💼 Experience Evaluation")
+
+                    st.info(job_match["experience"]["reason"])
+
+                    st.write("")
+
+                    # ==========================================
+                    # ACTION KEYWORDS
+                    # ==========================================
+
+                    st.subheader("🚀 Strong Action Keywords")
+
+                    if job_match["action"]["keywords"]:
+
+                        cols = st.columns(4)
+
+                        for i, word in enumerate(job_match["action"]["keywords"]):
+
+                            with cols[i % 4]:
+                                st.success(word)
+
+                    else:
+
+                        st.info("No strong action keywords detected.")
+
+                    
+                    st.divider()
+
+                    st.subheader("💡 Resume Suggestions")
+
+                    for level in [
+                        "High Priority",
+                        "Medium Priority",
+                        "Low Priority"
+                    ]:
+
+                        if suggestions[level]:
+
+                            st.markdown(f"### {level}")
+
+                            for item in suggestions[level]:
+                                st.write(f"• {item}")
+
+                with analysis_tab3:
+
+                    st.subheader("📝 Content Quality")
+
+                    cols = st.columns(4)
+
+                    items = [
+                        (k, v)
+                        for k, v in content_quality.items()
+                        if k not in ("Overall", "Feedback")
+                    ]
+
+                    for i, (metric, score) in enumerate(items):
+
+                        with cols[i % 4]:
+
+                            if score >= 8:
+                                st.success(f"### {score}/10")
+                            elif score >= 6:
+                                st.warning(f"### {score}/10")
+                            else:
+                                st.error(f"### {score}/10")
+
+                            st.caption(metric)
+
+                    st.divider()
+
+                    st.subheader("💡 AI Writing Suggestions")
+
+                    for item in content_quality["Feedback"]:
+                        st.info(item)
+
+
+                with analysis_tab4:
+
+                    st.subheader("🤖 AI Resume Review")
+
+                    with st.spinner("Analyzing resume..."):
+
+                        ai_review = analyze_resume_ai(
+                            resume_text,
+                            job_description
+                        )
+
+                    st.markdown(ai_review)
+
+
+                with analysis_tab5:
+
+                    st.subheader("🛣 Personalized Career Roadmap")
+
+                    with st.spinner("Generating roadmap..."):
+
+                        roadmap = generate_career_roadmap(
+                            resume_text,
+                            job_description,
+                            missing
+                        )
+
+                    st.markdown(roadmap)
+                   
+
+
+
+# ==========================================================
 # PROGRESS TRACKER
-# -------------------------------
+# ==========================================================
 
 elif page == "📈 Progress Tracker":
 
-    st.header("📈 Resume Progress Tracker")
+    st.title("📈 Resume Progress Tracker")
 
     history = get_analysis_history()
 
     if not history:
 
-        st.info("No previous analyses found.")
+        st.info("No previous resume analyses found.")
 
     else:
-
-        # -----------------------------
-        # Create DataFrame
-        # -----------------------------
 
         df = pd.DataFrame(
             history,
@@ -593,8 +678,7 @@ elif page == "📈 Progress Tracker":
             ]
         )
 
-        # Make sure score columns are integers
-        score_cols = [
+        score_columns = [
             "Overall",
             "ATS",
             "Job Match",
@@ -602,31 +686,33 @@ elif page == "📈 Progress Tracker":
             "Structure"
         ]
 
-        for col in score_cols:
+        for col in score_columns:
             df[col] = df[col].astype(int)
 
-        # -----------------------------
-        # Summary Cards
-        # -----------------------------
+        st.subheader("📊 Summary")
 
         total = len(df)
         best = df["Overall"].max()
         latest = df.iloc[0]["Overall"]
 
-        col1, col2, col3 = st.columns(3)
+        c1, c2, c3 = st.columns(3)
 
-        with col1:
-            st.metric("Analyses", total)
+        c1.metric(
+            "Analyses",
+            total
+        )
 
-        with col2:
-            st.metric("Best Score", f"{best}/100")
+        c2.metric(
+            "Best Score",
+            f"{best}/100"
+        )
 
-        with col3:
-            st.metric("Latest Score", f"{latest}/100")
+        c3.metric(
+            "Latest Score",
+            f"{latest}/100"
+        )
 
-        # -----------------------------
-        # Overall Score Chart
-        # -----------------------------
+        st.divider()
 
         st.subheader("📈 Overall Score Progress")
 
@@ -636,9 +722,7 @@ elif page == "📈 Progress Tracker":
             chart_df.set_index("Date")["Overall"]
         )
 
-        # -----------------------------
-        # Resume History Table
-        # -----------------------------
+        st.divider()
 
         st.subheader("📋 Resume History")
 
@@ -648,31 +732,26 @@ elif page == "📈 Progress Tracker":
             hide_index=True
         )
 
-        # -----------------------------
-        # Latest Comparison
-        # -----------------------------
-
         if len(df) >= 2:
+
+            st.divider()
+
+            st.subheader("📊 Latest Comparison")
 
             current = df.iloc[0]
             previous = df.iloc[1]
 
-            st.subheader("📊 Latest Comparison")
-
-            c1, c2, c3, c4, c5 = st.columns(5)
+            cols = st.columns(5)
 
             comparisons = [
                 ("Overall", "Overall"),
                 ("ATS", "ATS"),
                 ("Job Match", "Job Match"),
                 ("Content", "Content"),
-                ("Structure", "Structure")
+                ("Structure", "Structure"),
             ]
 
-            for col, (title, key) in zip(
-                [c1, c2, c3, c4, c5],
-                comparisons
-            ):
+            for col, (title, key) in zip(cols, comparisons):
 
                 with col:
 
