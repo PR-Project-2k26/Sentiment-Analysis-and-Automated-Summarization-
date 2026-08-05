@@ -5,14 +5,7 @@ from werkzeug.utils import secure_filename
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from ai.parser import extract_resume_text
-from ai.metrics import calculate_metrics
-from ai.sections import detect_sections
-from ai.skills import extract_skills, calculate_skill_match
-from ai.ats import calculate_ats
-from ai.score import calculate_resume_score
-from ai.suggestions import generate_suggestions
-
+from ai.resume_processor import process_resume
 from services.history_service import HistoryService
 
 resume = Blueprint("resume", __name__)
@@ -55,26 +48,6 @@ def upload_resume():
     file.save(file_path)
 
     # -----------------------------
-    # Extract Resume Text
-    # -----------------------------
-    resume_text = extract_resume_text(file_path)
-
-    # -----------------------------
-    # Metrics
-    # -----------------------------
-    metrics = calculate_metrics(resume_text)
-
-    # -----------------------------
-    # Sections
-    # -----------------------------
-    sections = detect_sections(resume_text)
-
-    # -----------------------------
-    # Resume Skills
-    # -----------------------------
-    resume_skills = extract_skills(resume_text)
-
-    # -----------------------------
     # Job Description
     # -----------------------------
     job_description = request.form.get(
@@ -82,83 +55,76 @@ def upload_resume():
         ""
     )
 
-    jd_skills = extract_skills(job_description)
+    try:
 
-    # -----------------------------
-    # Skill Match
-    # -----------------------------
-    skill_score, matched_skills, missing_skills = calculate_skill_match(
-        resume_skills,
-        jd_skills
-    )
+        # -----------------------------
+        # AI Resume Processing
+        # -----------------------------
+        result = process_resume(
+            file_path,
+            job_description
+        )
 
-    # -----------------------------
-    # ATS
-    # -----------------------------
-    ats_score, ats_report = calculate_ats(
-        metrics,
-        sections
-    )
+        # -----------------------------
+        # Save History
+        # -----------------------------
+        user_id = get_jwt_identity()
 
-    # -----------------------------
-    # Resume Score
-    # -----------------------------
-    resume_score, score_breakdown = calculate_resume_score(
-        ats_score,
-        skill_score,
-        metrics,
-        sections
-    )
+        summary = (
+            f"Resume Score: {result['resume_score']}/100 | "
+            f"ATS: {result['ats_score']}/20 | "
+            f"Job Match: {result['job_match']['score']}/40"
+        )
 
-    # -----------------------------
-    # Suggestions
-    # -----------------------------
-    suggestions = generate_suggestions(
-        resume_text,
-        missing_skills
-    )
+        HistoryService.save_history(
+            user_id=user_id,
+            module="Resume Analyzer",
+            file_name=filename,
+            summary=summary,
+            processing_time=0,
+            status="Completed"
+        )
 
-    # -----------------------------
-    # Save History
-    # -----------------------------
-    user_id = get_jwt_identity()
+        # -----------------------------
+        # Response
+        # -----------------------------
+        return jsonify({
 
-    summary = (
-        f"Resume Score: {resume_score}/100 | "
-        f"ATS: {ats_score}/20 | "
-        f"Skill Match: {skill_score}/40"
-    )
+            "success": True,
 
-    HistoryService.save_history(
-        user_id=user_id,
-        module="Resume Analyzer",
-        file_name=filename,
-        summary=summary,
-        processing_time=0,
-        status="Completed"
-    )
+            "fileName": filename,
 
-    # -----------------------------
-    # Response
-    # -----------------------------
-    return jsonify({
-        "success": True,
-        "fileName": filename,
+            "resumeScore": result["resume_score"],
 
-        "resumeScore": resume_score,
-        "atsScore": ats_score,
-        "skillScore": skill_score,
+            "atsScore": result["ats_score"],
 
-        "metrics": metrics,
-        "sections": sections,
+            "jobMatch": result["job_match"],
 
-        "scoreBreakdown": score_breakdown,
+            "metrics": result["metrics"],
 
-        "resumeSkills": sorted(list(resume_skills)),
-        "matchedSkills": sorted(list(matched_skills)),
-        "missingSkills": sorted(list(missing_skills)),
+            "sections": result["sections"],
 
-        "atsReport": ats_report,
+            "contentQuality": result["content_quality"],
 
-        "suggestions": suggestions
-    }), 200
+            "scoreBreakdown": result["score_breakdown"],
+
+            "matchedSkills": result["matched_skills"],
+
+            "missingSkills": result["missing_skills"],
+
+            "atsReport": result["ats_report"],
+
+            "suggestions": result["suggestions"],
+
+            "aiReview": result["ai_review"],
+
+            "careerRoadmap": result["career_roadmap"]
+
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500

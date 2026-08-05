@@ -1,16 +1,21 @@
 def detect_sections(resume_text):
-    """
-    Detect important resume sections.
-    """
 
     text = resume_text.lower()
 
     section_keywords = {
+
         "Contact Information": [
             "email",
             "phone",
             "linkedin",
             "github"
+        ],
+
+        "Summary": [
+            "summary",
+            "profile",
+            "objective",
+            "about"
         ],
 
         "Education": [
@@ -24,7 +29,8 @@ def detect_sections(resume_text):
 
         "Skills": [
             "skills",
-            "technical skills"
+            "technical skills",
+            "technologies"
         ],
 
         "Projects": [
@@ -39,29 +45,54 @@ def detect_sections(resume_text):
         ],
 
         "Certifications": [
+            "certification",
             "certifications",
             "certificate"
         ],
 
         "Achievements": [
+            "achievement",
             "achievements",
+            "award",
             "awards",
             "honors"
+        ],
+
+        "Leadership": [
+            "leadership",
+            "positions of responsibility",
+            "responsibility"
+        ],
+
+        "Volunteer": [
+            "volunteer",
+            "volunteering",
+            "community service"
+        ],
+
+        "Publications": [
+            "publication",
+            "publications",
+            "research paper"
         ],
 
         "Languages": [
             "languages"
         ],
 
-    
+        "Coursework": [
+            "coursework",
+            "relevant coursework"
+        ]
     }
 
     results = {}
 
     for section, keywords in section_keywords.items():
 
-        found = any(keyword in text for keyword in keywords)
-
-        results[section] = found
+        results[section] = any(
+            keyword in text
+            for keyword in keywords
+        )
 
     return results

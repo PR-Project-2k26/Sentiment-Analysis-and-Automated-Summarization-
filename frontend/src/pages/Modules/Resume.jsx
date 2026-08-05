@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import ModuleLayout from "../../layouts/ModuleLayout";
 import FileUploadBox from "../../components/Modules/FileUploadBox";
-import ResultCard from "../../components/Modules/ResultCard";
+
+import HeroScore from "../../components/Resume/HeroScore";
+import ResumeTabs from "../../components/Resume/ResumeTabs";
 
 import { analyzeResume } from "../../services/resumeService";
 import { saveHistory } from "../../services/historyService";
@@ -15,7 +17,7 @@ const Resume = () => {
 
   const handleAnalyze = async () => {
     if (!selectedFile) {
-      alert("Please select a resume.");
+      alert("Please select a Resume.");
       return;
     }
 
@@ -23,31 +25,29 @@ const Resume = () => {
       setLoading(true);
 
       const response = await analyzeResume(
-      selectedFile,
-      jobDescription
-    );
+        selectedFile,
+        jobDescription
+      );
 
-    setResult(response);
+      setResult(response);
 
-    // Save to History
-    await saveHistory({
-      module: "Resume Analyzer",
-      file_name: selectedFile.name,
-      summary: JSON.stringify({
-        resumeScore: response.resumeScore,
-        atsScore: response.atsScore,
-        skillScore: response.skillScore,
-      }),
-      processing_time: 0,
-      status: "Completed",
-    });
-
+      await saveHistory({
+        module: "Resume Analyzer",
+        file_name: selectedFile.name,
+        summary: JSON.stringify({
+          resumeScore: response.resumeScore,
+          atsScore: response.atsScore,
+          skillScore: response.jobMatch?.score,
+        }),
+        processing_time: 0,
+        status: "Completed",
+      });
     } catch (error) {
       console.error(error);
 
       alert(
         error.response?.data?.message ||
-        "Failed to analyze resume."
+          "Failed to analyze resume."
       );
     } finally {
       setLoading(false);
@@ -56,98 +56,87 @@ const Resume = () => {
 
   return (
     <ModuleLayout
-      title="Resume Analyzer"
-      description="Upload your resume to get ATS score and AI-powered suggestions."
+      title="AI Resume Analyzer"
+      description="Upload your resume and compare it with any Job Description using AI."
     >
       <FileUploadBox
-      selectedFile={selectedFile}
-      onFileSelect={setSelectedFile}
-      accept=".pdf"
-      title="Drag & Drop your Resume"
-      icon="📄"
-    />
+        selectedFile={selectedFile}
+        onFileSelect={setSelectedFile}
+        accept=".pdf"
+        title="Upload Resume (PDF)"
+      />
 
       <textarea
         value={jobDescription}
         onChange={(e) => setJobDescription(e.target.value)}
-        placeholder="Paste Job Description (Optional)"
-        className="mt-6 h-40 w-full rounded-xl border border-white/10 bg-white/5 p-4 text-white outline-none"
+        placeholder="Paste Job Description"
+        className="mt-6 h-44 w-full rounded-2xl border border-white/10 bg-white/5 p-5 text-white"
       />
 
       <button
         onClick={handleAnalyze}
         disabled={loading}
-        className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+        className="mt-6 w-full rounded-2xl bg-red-500 py-4 text-lg font-semibold text-white hover:bg-red-600"
       >
-        {loading ? "Analyzing..." : "Analyze Resume"}
+        {loading ? "Analyzing Resume..." : "🚀 Analyze Resume"}
       </button>
 
       {result && (
-        <div className="mt-8 space-y-6">
+        <div className="mt-10 space-y-8">
+          {/* Hero Score */}
+          <HeroScore
+            score={result.resumeScore}
+            ats={result.atsScore}
+            job={result.jobMatch?.score}
+            content={result.scoreBreakdown?.["Content Quality"]}
+            structure={result.scoreBreakdown?.["Resume Structure"]}
+          />
 
-          <ResultCard title="Resume Scores">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {/* Score Breakdown */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
+            <h2 className="mb-8 text-3xl font-bold">
+              📈 Score Breakdown
+            </h2>
 
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-gray-400">Resume Score</p>
-                <h2 className="text-3xl font-bold text-green-400">
-                  {result.resumeScore}/100
-                </h2>
-              </div>
+            {Object.entries(result.scoreBreakdown || {}).map(
+              ([title, score]) => {
+                const total =
+                  title === "Job Match" ? 40 : 20;
 
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-gray-400">ATS Score</p>
-                <h2 className="text-3xl font-bold text-blue-400">
-                  {result.atsScore}/20
-                </h2>
-              </div>
+                return (
+                  <div
+                    key={title}
+                    className="mb-7"
+                  >
+                    <div className="mb-3 flex justify-between">
+                      <span className="font-medium">
+                        {title}
+                      </span>
 
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-gray-400">Skill Match</p>
-                <h2 className="text-3xl font-bold text-purple-400">
-                  {result.skillScore}/40
-                </h2>
-              </div>
+                      <span>
+                        {score}/{total}
+                      </span>
+                    </div>
 
-            </div>
-          </ResultCard>
+                    <div className="h-3 rounded-full bg-gray-800">
+                      <div
+                        className="h-3 rounded-full bg-blue-500"
+                        style={{
+                          width: `${Math.min(
+                            (score / total) * 100,
+                            100
+                          )}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              }
+            )}
+          </div>
 
-          <ResultCard title="Matched Skills">
-            <div className="flex flex-wrap gap-2">
-              {result.matchedSkills.map((skill) => (
-                <span
-                  key={skill}
-                  className="rounded-full bg-green-600 px-3 py-1 text-sm"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </ResultCard>
-
-          <ResultCard title="Missing Skills">
-            <div className="flex flex-wrap gap-2">
-              {result.missingSkills.map((skill) => (
-                <span
-                  key={skill}
-                  className="rounded-full bg-red-600 px-3 py-1 text-sm"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </ResultCard>
-
-          <ResultCard title="Suggestions">
-            <ul className="list-disc space-y-2 pl-6">
-              {result.suggestions.map((item, index) => (
-                <li key={index}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </ResultCard>
-
+          {/* Tabs */}
+          <ResumeTabs result={result} />
         </div>
       )}
     </ModuleLayout>
