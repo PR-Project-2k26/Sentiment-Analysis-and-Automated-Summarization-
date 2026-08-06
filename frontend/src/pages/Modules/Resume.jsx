@@ -74,12 +74,12 @@ const Resume = () => {
       />
 
       <button
-        onClick={handleAnalyze}
-        disabled={loading}
-        className="mt-6 w-full rounded-2xl bg-red-500 py-4 text-lg font-semibold text-white hover:bg-red-600"
-      >
-        {loading ? "Analyzing Resume..." : "🚀 Analyze Resume"}
-      </button>
+    onClick={handleAnalyze}
+    disabled={loading}
+    className="mt-6 rounded-2xl bg-blue-600 px-8 py-4 text-xl font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+    {loading ? "Analyzing Resume..." : "Analyze Resume"}
+    </button>
 
       {result && (
         <div className="mt-10 space-y-8">
@@ -93,9 +93,9 @@ const Resume = () => {
           />
 
           {/* Score Breakdown */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
-            <h2 className="mb-8 text-3xl font-bold">
-              📈 Score Breakdown
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <h2 className="mb-6 text-center text-2xl font-bold text-white">
+            Score Breakdown
             </h2>
 
             {Object.entries(result.scoreBreakdown || {}).map(
@@ -106,9 +106,9 @@ const Resume = () => {
                 return (
                   <div
                     key={title}
-                    className="mb-7"
+                    className="mb-5"
                   >
-                    <div className="mb-3 flex justify-between">
+                    <div className="mb-2 flex justify-between">
                       <span className="font-medium">
                         {title}
                       </span>
@@ -118,9 +118,9 @@ const Resume = () => {
                       </span>
                     </div>
 
-                    <div className="h-3 rounded-full bg-gray-800">
+                    <div className="h-2 rounded-full bg-gray-800">
                       <div
-                        className="h-3 rounded-full bg-blue-500"
+                        className="h-2 rounded-full bg-blue-500"
                         style={{
                           width: `${Math.min(
                             (score / total) * 100,
